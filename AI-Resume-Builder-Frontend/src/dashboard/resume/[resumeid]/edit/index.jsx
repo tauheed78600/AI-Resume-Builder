@@ -33,12 +33,10 @@ function EditResume({ resumeList }) {
     }, [resumeInfo]);
 
     useEffect(() => {
-        const resumeId = parseInt(params.resumeid);
+        const resumeId = parseInt(params?.resumeid);
         const foundResume = resumeList.find(resume => resume.userid === resumeId);
 
         if (foundResume) {
-            
-            // Fetch additional resume data
             const fetchResumeData = async () => {
                 try {
                     const resp = await GlobalAPI.getResumeData(foundResume.userid);
@@ -65,6 +63,11 @@ function EditResume({ resumeList }) {
 
     return (
         <resumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
+            <div className='flex justify-center font-bold text-4xl italic'>
+                {resumeInfo?.title}
+            </div>
+
+
             <div className='grid grid-cols-2 md: p-10 gap-10'>
                 <FormSection />
                 <ResumePreview />

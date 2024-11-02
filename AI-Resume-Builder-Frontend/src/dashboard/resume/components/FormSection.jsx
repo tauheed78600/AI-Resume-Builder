@@ -3,18 +3,20 @@ import PersonalDetails from './forms/PersonalDetails'
 import { resumeInfoContext } from '../../../context/ResumeInfoContext'
 import { ArrowBigLeft, ArrowRight, Home, LayoutGrid } from 'lucide-react'
 import { Button } from '../../../components/ui/button'
-import { useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import Objective from './forms/Objective'
 import Experience from './forms/Experience'
 import Education from './forms/Education'
 import Skills from './forms/Skills'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 
 function FormSection() {
 
   const {resumeInfo, setResumeInfo} = useContext(resumeInfoContext)
   const [activeFormIndex, setActiveFormIndex] = useState(1);
   const [enablenext, setEnablenext] = useState(false)
+
+  const {resumeid} = useParams()
 
   return (
     <div>
@@ -41,7 +43,9 @@ function FormSection() {
       activeFormIndex == 2? <Objective enablenext = {(v)=>setEnablenext(v)}/>:
       activeFormIndex == 3? <Experience enablenext = {(v)=>setEnablenext(v)}/>:
       activeFormIndex == 4? <Education enablenext = {(v)=>setEnablenext(v)}/>:
-      activeFormIndex == 5? <Skills enablenext = {(v)=>setEnablenext(v)}/>
+      activeFormIndex == 5? <Skills enablenext = {(v)=>setEnablenext(v)}/>:
+      activeFormIndex == 6?
+      <Navigate to ={'/my-resume/' + resumeid + '/view'}/>
       :null}
     </div>
   )

@@ -49,6 +49,8 @@ function Education() {
 
     const onSave = (e) => {
         setLoading(true);
+
+        console.log("params in education", params)
     
         let updatedEducationList = educationList.map((education) => ({
             // Explicitly set only the fields you want to send

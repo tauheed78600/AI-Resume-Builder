@@ -30,6 +30,11 @@ const addSkills = (id, data)=>{
     return axiosClient.post('/skills/' + id, data)
 }
 
+const deleteResumeById = async(id)=>{
+    console.log("id in line 34", id)
+    return axiosClient.delete('/delete-resume/' + id)
+}
+
 const getResumeData = (userid) =>axiosClient.get('/resume/data/' + userid)
 
 const updateExperience = async(id, data)=>{
@@ -59,5 +64,6 @@ export default {
     updateExperience,
     addEducation,
     getResumeData,
-    addSkills
+    addSkills,
+    deleteResumeById
 }
