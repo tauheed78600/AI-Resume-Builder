@@ -59,7 +59,7 @@ export class ResumeService {
         userDetails.jobTitle = jobTitle
         userDetails.number = number
         userDetails.summary = summary
-
+        
         return this.UserDetRepo.save(userDetails);
     }
 
@@ -91,9 +91,10 @@ async getResumeData(id: string) {
     // Logging user information
     console.log("user before res", skills);
 
-    const {themeColor, firstName, lastName, jobTitle, userEmail, username, number, summary, address, email} = user;
+    const {title, themeColor, firstName, lastName, jobTitle, userEmail, username, number, summary, address, email} = user;
 
     const response = {
+        title,
         firstName,
         lastName,
         jobTitle,
@@ -111,6 +112,15 @@ async getResumeData(id: string) {
     return response;
 }
 
+
+async deleteResume(id: number){
+    const user = await this.UserDetRepo.findOne({where: {userid: id}})
+    await this.EduRepo.delete({user: user})
+    await this.ExpRepo.delete({user: user})
+    await this.skillRepo.delete({user: user})
+    await this.UserDetRepo.delete(id)
+    return
+}
 
 
 async addSkill(userId: number, addEdu: UpdateSkillDTO[]){
@@ -194,36 +204,34 @@ async updateExperiences(userid: number, updateExp: UpdateExperienceDTO[]) {
     if (!user) {
         throw new Error('User not found');
     }
+    const userId = user.userid; 
+
+
+    await this.ExpRepo.createQueryBuilder()
+        .delete()
+        .from(Experience)
+        .where("user_id = :userId", { userId })
+        .execute();
+
+        console.log("after delete")
+
     if (updateExp.length === 0){
-        const idsToDelete = await this.ExpRepo.find({where: {user: user}})
-        console.log("idsToDelete line 71", idsToDelete)
-        if (idsToDelete.length === 0){
-            return
-        }
-        let ids = []
-        idsToDelete.map((exp)=>ids.push(exp.id))
-        await this.ExpRepo.delete(ids)
         return
     }
-    let idsToDelete = []
-    updateExp.map((edu)=>idsToDelete.push(edu.id))
-    console.log("idsToDelete in education", idsToDelete)
-    await this.ExpRepo.delete(idsToDelete)
+    if (updateExp && updateExp.length > 0) {
+        const educationEntities = updateExp.map(entry => {
+            const education = this.ExpRepo.create({
+                ...entry,
+                startDate: entry.startDate,
+                endDate: entry.endDate,
+            });
+            education.user = user;
+            return education;
+        });
 
-    updateExp.map((newExpEntry)=>{
-        let experienceSave = new Experience()
-        experienceSave.city = newExpEntry.city
-        experienceSave.companyName = newExpEntry.companyName
-        experienceSave.endDate = newExpEntry.endDate
-        experienceSave.major = newExpEntry.major
-        experienceSave.startDate = newExpEntry.startDate
-        experienceSave.state = newExpEntry.city
-        experienceSave.summary = newExpEntry.summary
-        experienceSave.title = newExpEntry.title
-        experienceSave.user = user
-
-        this.ExpRepo.save(experienceSave)
-    })
+        // Save the new education entries
+        await this.ExpRepo.save(educationEntities);
+    }
 }
 
 

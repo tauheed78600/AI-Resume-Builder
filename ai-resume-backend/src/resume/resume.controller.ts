@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ResumeService } from './resume.service';
 import { JwtService } from '@nestjs/jwt';
 import { CreateResumeDto } from './dto/CreateResumeDTO';
@@ -55,6 +55,12 @@ export class ResumeController {
     async addSkill(@Body() skillDto: UpdateSkillDTO[], @Param('userid') userId: number){
         console.log("data in skills API", skillDto)
         this.resumeService.addSkill(userId, skillDto)
+    }
+
+    @Delete('/delete-resume/:id')
+    async deleteResume(@Param('id') id: number){
+        console.log("inside delete resume")
+        this.resumeService.deleteResume(id)
     }
 
     @Put('/education/:userid')
