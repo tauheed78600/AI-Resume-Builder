@@ -27,7 +27,7 @@ export class ResumeService {
 
     async createResume(dto: CreateResumeDto): Promise<UserDetails>{
 
-        const { title, resumeid, useremail, username } = dto.data;
+        const { title, resumeid, useremail, username, themeColor } = dto.data;
 
         const userDetails = new UserDetails();
         console.log("dto in service line 18", dto)
@@ -35,6 +35,7 @@ export class ResumeService {
         userDetails.title = title;
         userDetails.userEmail = useremail;
         userDetails.username = username;
+        userDetails.themeColor = themeColor
 
         console.log("usedetails line 23", userDetails)
 

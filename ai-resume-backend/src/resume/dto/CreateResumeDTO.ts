@@ -13,6 +13,9 @@ export class UserDetailsDataDto {
 
     @IsNotEmpty()
     username: string;
+
+    @IsNotEmpty()
+    themeColor: string;
 }
 
 export class CreateResumeDto {
