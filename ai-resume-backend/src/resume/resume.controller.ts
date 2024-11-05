@@ -6,6 +6,8 @@ import { UpdateUserDTO } from './dto/UpdateUserDTO';
 import { UpdateExperienceDTO } from './dto/UpdateExperienceDTO';
 import { UpdateSkillDTO } from './dto/SkillDto';
 import { UpdateEducationDTO } from './dto/EducationDTO';
+import { SendDTO } from './dto/SendDTO';
+import { send } from 'process';
 
 @Controller('/api')
 export class ResumeController {
@@ -32,6 +34,13 @@ export class ResumeController {
         console.log("inside getResume data function")
         const res = this.resumeService.getResumeData(userid)
         return res
+    }
+
+
+    @Post('/send-message')
+    async sendMessage(@Body() sendDTO: SendDTO){
+        console.log("data in sendDto", sendDTO)
+        this.resumeService.sendMail(sendDTO)
     }
 
 

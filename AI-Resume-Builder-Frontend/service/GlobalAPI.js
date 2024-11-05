@@ -26,6 +26,8 @@ const updateResumeDetail =(id, data) =>{
     return axiosClient.put('/user-resumes/' + id, data)
 }
 
+const sendMessage = (data) =>axiosClient.post('/send-message', data)
+
 const addSkills = (id, data)=>{
     return axiosClient.post('/skills/' + id, data)
 }
@@ -65,5 +67,6 @@ export default {
     addEducation,
     getResumeData,
     addSkills,
-    deleteResumeById
+    deleteResumeById,
+    sendMessage
 }

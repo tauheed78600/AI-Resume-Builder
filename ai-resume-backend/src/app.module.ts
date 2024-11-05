@@ -29,7 +29,7 @@ import { Skills } from './entity/Skills';
         from: '"No Reply" <tauheeddarekar786@gmail.com>',
       },
       template: {
-        dir: join(__dirname, 'templates'),
+        dir: join(__dirname, '../src/templates'),
         adapter: new HandlebarsAdapter(), // or any other adapter
         options: {
           strict: true,
@@ -41,7 +41,7 @@ import { Skills } from './entity/Skills';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'password',
+      password: 'Tauheed123',
       database: 'airesume',
       entities: [Experience, UserDetails, Education, Skills],
       synchronize: true,

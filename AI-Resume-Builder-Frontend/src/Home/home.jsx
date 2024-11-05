@@ -1,8 +1,43 @@
 import { UserButton } from '@clerk/clerk-react';
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../components/custom/header';
+import GlobalAPI from '../../service/GlobalAPI';
+import { toast } from 'sonner';
+import { LoaderCircle } from 'lucide-react';
 
 function Home() {
+  
+  const [loading, setLoading] = useState(false)
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  })
+
+  const handleChange = (e) =>{
+    const {name, value} = e.target;
+    setFormData(prevData=>({
+      ...prevData,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = (e) =>{
+    e.preventDefault()
+    setLoading(true)
+    console.log("formData in line 27", formData)
+    GlobalAPI.sendMessage(formData).then((res)=>{
+        setLoading(false)
+        toast("Message Sent");  
+    }).catch(error=>{
+        setLoading(false);
+        toast.error('Error sending message!');
+        console.error(error);
+    })
+  }
+
+
   return (
     <div className="bg-white text-black min-h-screen">
       <Header />
@@ -10,7 +45,7 @@ function Home() {
         
         <section className="text-center my-16 space-y-6 animate-fade-in">
           <h1 className="text-4xl font-bold drop-shadow-lg animate-slide-in-down">
-            Welcome to <span className="text-indigo-600">AI Resume Builder</span>
+            Welcome to <span className="text-indigo-600">Resumatic</span>
           </h1>
           <p className="text-lg max-w-lg mx-auto opacity-90 animate-slide-in-up">
             Build your professional resume with the power of AI. Easy, fast, and effective!
@@ -108,21 +143,27 @@ function Home() {
           <h2 className="text-3xl font-semibold mb-8">Contact Us</h2>
           <form className="max-w-lg mx-auto space-y-4">
             <input
+              onChange={handleChange}
+              name = 'name'
               type="text"
               placeholder="Your Name"
               className="w-full p-3 rounded-md bg-gray-100 text-black placeholder-gray-500 focus:outline-none"
             />
             <input
+              onChange={handleChange}
+              name='email'
               type="email"
               placeholder="Your Email"
               className="w-full p-3 rounded-md bg-gray-100 text-black placeholder-gray-500 focus:outline-none"
             />
             <textarea
+              onChange={handleChange}
+              name='message'
               placeholder="Your Message"
               className="w-full p-3 rounded-md bg-gray-100 text-black placeholder-gray-500 focus:outline-none"
               rows="4"
             />
-            <button className="bg-indigo-600 text-white font-semibold px-6 py-3 rounded-full shadow-md hover:shadow-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out transform hover:scale-105">
+            <button onClick={handleSubmit} className="bg-indigo-600 text-white font-semibold px-6 py-3 rounded-full shadow-md hover:shadow-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out transform hover:scale-105">
               Submit
             </button>
           </form>

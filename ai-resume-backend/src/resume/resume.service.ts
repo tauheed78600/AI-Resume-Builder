@@ -10,6 +10,8 @@ import { Education } from 'src/entity/Education';
 import { Skills } from 'src/entity/Skills';
 import { UpdateSkillDTO } from './dto/SkillDto';
 import { UpdateEducationDTO } from './dto/EducationDTO';
+import { SendDTO } from './dto/SendDTO';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class ResumeService {
@@ -22,7 +24,8 @@ export class ResumeService {
         @InjectRepository(Education)
         private EduRepo: Repository<Education>,
         @InjectRepository(Skills)
-        private skillRepo: Repository<Skills>
+        private skillRepo: Repository<Skills>,
+        private readonly mailerService: MailerService
     ) {}
 
     async createResume(dto: CreateResumeDto): Promise<UserDetails>{
@@ -41,6 +44,26 @@ export class ResumeService {
 
         return this.UserDetRepo.save(userDetails);
     }
+
+    async sendMail(sendDTO: SendDTO) {
+        const { name, email, message } = sendDTO;
+        const subject = "Mail from your website";
+        
+        try {
+            await this.mailerService.sendMail({
+                to: 'tauheeddarekar786@gmail.com',
+                subject: subject,
+                template: './welcome',
+                context: {
+                    name: name,
+                    message: message,
+                },
+            });
+        } catch (error) {
+            console.error('Error sending email:', error);
+        }
+    }
+    
 
     async updateUserDetails(userid: string, dto: UpdateUserDTO): Promise<UserDetails> {
 
