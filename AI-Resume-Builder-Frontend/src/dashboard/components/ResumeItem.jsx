@@ -1,6 +1,6 @@
 import { Loader2Icon, MoreVertical } from 'lucide-react'
 import React, { useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,16 +24,11 @@ function ResumeCardItem({ resume }) {
   const navigation = useNavigate();
   const [openAlert, setOpenAlert] = useState(false);
   const [loading, setLoading] = useState(false);
-  const params = useParams();
-
-  console.log("params in resumeItem", params)
 
   const onDelete = () => {
     setLoading(true);
     GlobalAPI.deleteResumeById(resume.userid).then(resp => {
-      console.log(resp);
       toast('Resume Deleted!');
-      window.location.reload
       setLoading(false);
       setOpenAlert(false);
     }, (error) => {
@@ -44,7 +39,7 @@ function ResumeCardItem({ resume }) {
   return (
     <div className='transition-all transform hover:scale-105'>
       <Link to={'/dashboard/resume/' + resume.userid + "/edit"}>
-        <div className='p-14 bg-gradient-to-b from-[#E6E6FA] via-[#D8BFD8] to-[#DDA0DD] h-[280px] 
+        <div className='p-6 bg-gradient-to-b from-[#E6E6FA] via-[#D8BFD8] to-[#DDA0DD] h-[280px] 
           rounded-t-lg border-t-4 transition-transform duration-300 ease-in-out hover:shadow-2xl hover:rotate-1'
           style={{ borderColor: '#E6E6FA' }}
         >

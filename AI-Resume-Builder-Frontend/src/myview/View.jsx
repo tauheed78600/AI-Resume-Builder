@@ -13,7 +13,7 @@ function ViewResume() {
   const [shareMessage, setShareMessage] = useState("");
 
   const handleDownload = () => {
-    const element = document.getElementById('print-area'); // Select the div containing the resume
+    const element = document.getElementById('print-area');
     const options = {
       margin: 0,
       filename: `${resumeInfo?.firstName}_${resumeInfo?.lastName}_Resume.pdf`,

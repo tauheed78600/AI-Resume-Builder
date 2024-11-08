@@ -9,10 +9,10 @@ export class Experience {
     @Column({ type: 'text' })
     title: string;
 
-    @Column({ type: 'text' })
+    @Column({ type: 'text', nullable: true})
     city: string;
 
-    @Column({ type: 'text' })
+    @Column({ type: 'text', nullable: true })
     state: string;
 
     @Column({ type: 'date' })
