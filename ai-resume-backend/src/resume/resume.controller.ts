@@ -47,7 +47,7 @@ export class ResumeController {
     @Put('/user-resumes/:resumeid')
     async update(@Param('resumeid') resumeId: string, @Body() updateUserDetailsDto: UpdateUserDTO) {
         console.log("inside")
-        console.log("line 23, put api", resumeId, updateUserDetailsDto)
+        console.log("line 50, put api", resumeId, updateUserDetailsDto)
 
         this.resumeService.updateUserDetails(resumeId, updateUserDetailsDto);
     }

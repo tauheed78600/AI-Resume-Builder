@@ -6,6 +6,9 @@ export class UserDetails {
     @PrimaryGeneratedColumn()
     userid: number;
 
+    @Column({type: 'text', default: null})
+    templateId: string
+
     @Column({ type: 'text', nullable: true, default: null })
     title: string;
 

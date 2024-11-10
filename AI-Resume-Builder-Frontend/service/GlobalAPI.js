@@ -13,7 +13,8 @@ const axiosClient = axios.create({
 const createNewResume = async (data) => {
     try {
         const response = await axiosClient.post('/user-resumes', data);
-        console.log('Response:', response);
+        console.log('Response in global API:', response);
+        return response
     } catch (error) {
         console.error('Error:', error.response?.data || error.message);
     }
@@ -22,7 +23,7 @@ const createNewResume = async (data) => {
 const getUserResumes =(userEmail) =>axiosClient.get('/user-resumes/' + userEmail)
 
 const updateResumeDetail =(id, data) =>{
-    console.log("id data in globalAPI", data)
+    console.log("id data in globalAPI",id, data)
     return axiosClient.put('/user-resumes/' + id, data)
 }
 

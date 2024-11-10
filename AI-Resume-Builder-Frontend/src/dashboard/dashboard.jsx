@@ -43,17 +43,17 @@ function Dashboard() {
           <Card
             title="Cover Letter"
             buttonTitle="Create"
-            description="Create Beautiful COver letters with our 100+ resume templates"
+            description="Create Beautiful Cover letters with our 100+ CV templates"
           />
           <Card
             title="Biodata"
             buttonTitle="Create"
-            description="Create Beautiful Biodata with our 100+ resume templates"
+            description="Create Beautiful Biodata with our 100+ Biodata templates"
           />
           <Card
             title="Personal Portfolio"
             buttonTitle="Create"
-            description="Create Beautiful Portfolios with our 100+ resume templates"
+            description="Create Beautiful Portfolios with our 100+ portfolio templates"
           />
         </div>
       </div>

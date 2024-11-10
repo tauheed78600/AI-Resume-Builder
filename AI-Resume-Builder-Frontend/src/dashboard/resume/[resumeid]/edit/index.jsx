@@ -1,79 +1,76 @@
-import { CloudHail } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import FormSection from '../../components/FormSection';
 import ResumePreview from '../../components/ResumePreview';
 import { resumeInfoContext } from '../../../../context/ResumeInfoContext';
 import GlobalAPI from '../../../../../service/GlobalAPI';
+import resumeTemplates from '../../components/preview/templates';
 
 function EditResume({ resumeList }) {
-    const params = useParams();
-    const [resumeInfo, setResumeInfo] = useState({
-        firstName: '',
-        lastName: '',
-        address: '',
-        userEmail: '',
-        email: '',
-        number: '',
-        summary: '',
-        themeColor: '#000000',
-        username: '',
-        jobTitle: '',
-        skills: [],
-        education: [],
-        experience: [],
-    });
-    const [loading, setLoading] = useState(true);
+  const params = useParams();
+  const [resumeInfo, setResumeInfo] = useState({
+    firstName: '',
+    lastName: '',
+    address: '',
+    userEmail: '',
+    email: '',
+    number: '',
+    summary: '',
+    themeColor: '#000000',
+    username: '',
+    jobTitle: '',
+    skills: [],
+    education: [],
+    experience: [],
+    templateId: '',
+  });
+  const [loading, setLoading] = useState(true);
 
-
-    useEffect(() => {
-        if (resumeInfo) {
-            console.log("Updated resumeInfo in useEffect:", resumeInfo);
+  useEffect(() => {
+    const resumeId = parseInt(params?.resumeid);
+    const foundResume = resumeList.find(resume => resume.userid === resumeId);
+    console.log("foundResume", foundResume)
+    
+    if (foundResume) {
+      const fetchResumeData = async () => {
+        try {
+          const resp = await GlobalAPI.getResumeData(foundResume.userid);
+          console.log("resp in edit resume", resp);
+          setResumeInfo(resp.data);
+        } catch (error) {
+          console.error("Error fetching resume data:", error);
+        } finally {
+          setLoading(false);
         }
-    }, [resumeInfo]);
-
-    useEffect(() => {
-        const resumeId = parseInt(params?.resumeid);
-        const foundResume = resumeList.find(resume => resume.userid === resumeId);
-
-        if (foundResume) {
-            const fetchResumeData = async () => {
-                try {
-                    const resp = await GlobalAPI.getResumeData(foundResume.userid);
-                    console.log("Fetched resume data:", resp.data);
-                    setResumeInfo(resp.data);
-                    console.log("resumeInfo in line 30 editResume", resumeInfo)
-                } catch (error) {
-                    console.error("Error fetching resume data:", error);
-                } finally {
-                    setLoading(false);
-                }
-            };
-
-            fetchResumeData();
-        } else {
-            console.error("Resume not found");
-            setLoading(false);
-        }
-    }, [resumeList, params.resumeid]);
-
-    if (loading) {
-        return <div>Loading...</div>;
+      };
+  
+      fetchResumeData();
+    } else {
+      setLoading(false);
     }
+  }, [resumeList, params.resumeid]);
+  
 
-    return (
-        <resumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
-            <div className='flex justify-center font-bold text-4xl italic'>
-                {resumeInfo?.title}
-            </div>
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
 
-            <div className='grid grid-cols-2 md: p-10 gap-10'>
-                <FormSection />
-                <ResumePreview />
-            </div>
-        </resumeInfoContext.Provider>
-    );
+
+  const selectedTemplate = resumeTemplates.find(template => template.id === resumeInfo.templateId);
+
+  return (
+    <resumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
+      <div className="flex justify-center font-bold text-4xl italic">
+        {resumeInfo?.title}
+      </div>
+
+      <div className="grid grid-cols-2 p-10 gap-10">
+        <FormSection />
+        {selectedTemplate ? selectedTemplate.component : <ResumePreview />}
+      </div>
+    </resumeInfoContext.Provider>
+  );
 }
 
 export default EditResume;

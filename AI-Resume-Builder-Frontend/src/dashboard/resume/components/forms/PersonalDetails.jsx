@@ -38,7 +38,6 @@ function PersonalDetails({ enablenext }) {
         })
     }
 
-    // Prefill the form data from resumeInfo
     useEffect(() => {
         if (resumeInfo) {
             setFormData({
@@ -50,13 +49,12 @@ function PersonalDetails({ enablenext }) {
                 email: resumeInfo.email || ''
             });
         }
-    }, [resumeInfo]); // Dependency array includes resumeInfo to run the effect when resumeInfo changes
+    }, [resumeInfo]);
 
     const onSave = (e) => {
         e.preventDefault();
         setLoading(true);
 
-        // Prepare data
         const data = {
             data: formData
         };

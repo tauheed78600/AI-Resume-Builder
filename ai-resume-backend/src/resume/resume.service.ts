@@ -12,6 +12,7 @@ import { UpdateSkillDTO } from './dto/SkillDto';
 import { UpdateEducationDTO } from './dto/EducationDTO';
 import { SendDTO } from './dto/SendDTO';
 import { MailerService } from '@nestjs-modules/mailer';
+import { template } from '@babel/core';
 
 @Injectable()
 export class ResumeService {
@@ -30,7 +31,7 @@ export class ResumeService {
 
     async createResume(dto: CreateResumeDto): Promise<UserDetails>{
 
-        const { title, resumeid, useremail, username, themeColor } = dto.data;
+        const { title, resumeid, useremail, username, themeColor, templateId } = dto.data;
 
         const userDetails = new UserDetails();
         console.log("dto in service line 18", dto)
@@ -39,10 +40,14 @@ export class ResumeService {
         userDetails.userEmail = useremail;
         userDetails.username = username;
         userDetails.themeColor = themeColor
+        userDetails.templateId = templateId
 
         console.log("usedetails line 23", userDetails)
 
-        return this.UserDetRepo.save(userDetails);
+        await this.UserDetRepo.save(userDetails);
+        const user2 = await this.UserDetRepo.findOne({where: {resumeid: resumeid}})
+        console.log("user after fetched", user2)
+        return user2
     }
 
     async sendMail(sendDTO: SendDTO) {
@@ -66,8 +71,9 @@ export class ResumeService {
     
 
     async updateUserDetails(userid: string, dto: UpdateUserDTO): Promise<UserDetails> {
-
+        console.log("id in service", userid)
         const id = parseInt(userid)
+        console.log("id after int", id)
         const userDetails = await this.UserDetRepo.findOne({ where: { userid: id } });
 
         if (!userDetails) {
@@ -115,7 +121,7 @@ async getResumeData(id: string) {
     // Logging user information
     console.log("user before res", skills);
 
-    const {title, themeColor, firstName, lastName, jobTitle, userEmail, username, number, summary, address, email} = user;
+    const {title, themeColor, firstName, lastName, jobTitle, userEmail, username, number, summary, address, email, templateId} = user;
 
     const response = {
         title,
@@ -124,6 +130,7 @@ async getResumeData(id: string) {
         jobTitle,
         userEmail,
         username,
+        templateId,
         number,
         summary,
         address,

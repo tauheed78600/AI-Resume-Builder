@@ -22,9 +22,9 @@ const Main = () => {
   const getResumeList = () => {
     const email = user?.primaryEmailAddress?.emailAddress;
     console.log("Email address:", email);
-
     GlobalAPI.getUserResumes(email)
       .then(resp => {
+        console.log("first me in main jsx");
         console.log("resp.data.data", resp);
         setResumeList(resp.data);
       })
@@ -32,6 +32,7 @@ const Main = () => {
         console.error("Error fetching resumes:", error);
       });
   };
+  
 
   useEffect(() => {
     if (isLoaded && isSignedIn) {
