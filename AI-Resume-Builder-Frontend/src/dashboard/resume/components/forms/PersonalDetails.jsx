@@ -12,6 +12,7 @@ function PersonalDetails({ enablenext }) {
     const params = useParams()
 
     const { resumeInfo, setResumeInfo } = useContext(resumeInfoContext);
+    console.log("resumeInfo in personalDetails", resumeInfo)
 
     const [formData, setFormData] = useState({
         firstName: '',

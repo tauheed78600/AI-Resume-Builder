@@ -17,7 +17,7 @@ function RichTextEditor({ onRichTextEditorChange,index,defaultValue, val}) {
 
     const GenerateSummeryFromAI=async()=>{
       console.log("val in line 16", val)
-      if (val !== 'education'){
+      if (val !== 'education' && val !== 'projects'){
         if(!resumeInfo?.experience[index]?.title)
           {
             toast('Please Add Position Title');
@@ -31,7 +31,7 @@ function RichTextEditor({ onRichTextEditorChange,index,defaultValue, val}) {
           const resp=result.response.text()
           setValue(resp.replace('[','').replace(']',''));
           setLoading(false);
-      }else{
+      }else if(val === 'education'){
         console.log(resumeInfo)
         if(!resumeInfo?.education[index]?.degree || !resumeInfo?.education[index]?.universityName ||
           !resumeInfo?.education[index]?.branch || !resumeInfo?.education[index]?.startDate || !resumeInfo?.education[index]?.endDate
@@ -54,6 +54,21 @@ function RichTextEditor({ onRichTextEditorChange,index,defaultValue, val}) {
             
           const result=await AIChatSession.sendMessage(prompt);
           console.log(result.response.text());
+          const resp=result.response.text()
+          setValue(resp.replace('[','').replace(']',''));
+          setLoading(false);
+      }else if(val === 'projects'){
+        if(!resumeInfo?.projects[index]?.projectTitle)
+          {
+            toast('Please Add Project Title');
+            return ;
+          }
+          const PROMPT2 = "Generate a project description of a project name {projectTitle}. Dont give Json Array in the response"
+          setLoading(true)
+          const prompt=PROMPT2.replace('{projectTitle}',resumeInfo.experience[index].projectTitle);
+          
+          const result=await AIChatSession.sendMessage(prompt);
+          console.log("result.response.text() in projects", result.response.text());
           const resp=result.response.text()
           setValue(resp.replace('[','').replace(']',''));
           setLoading(false);

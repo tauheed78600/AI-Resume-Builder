@@ -22,6 +22,7 @@ function EditResume({ resumeList }) {
     skills: [],
     education: [],
     experience: [],
+    projects: [],
     templateId: '',
   });
   const [loading, setLoading] = useState(true);
@@ -69,7 +70,7 @@ function EditResume({ resumeList }) {
         <FormSection />
         {selectedTemplate ? selectedTemplate.component : <ResumePreview />}
       </div>
-    </resumeInfoContext.Provider>
+        </resumeInfoContext.Provider>
   );
 }
 

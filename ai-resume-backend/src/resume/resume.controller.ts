@@ -8,6 +8,7 @@ import { UpdateSkillDTO } from './dto/SkillDto';
 import { UpdateEducationDTO } from './dto/EducationDTO';
 import { SendDTO } from './dto/SendDTO';
 import { send } from 'process';
+import { ProjectDTO } from './dto/ProjectDTO';
 
 @Controller('/api')
 export class ResumeController {
@@ -41,6 +42,12 @@ export class ResumeController {
     async sendMessage(@Body() sendDTO: SendDTO){
         console.log("data in sendDto", sendDTO)
         this.resumeService.sendMail(sendDTO)
+    }
+    
+    @Post('/add-projects/:userid')
+    async addProject(@Body() projectDto: ProjectDTO[], @Param('userid') userId: number){
+        console.log("inside projects API", userId, projectDto)
+        this.resumeService.addProjects(userId, projectDto)
     }
 
 

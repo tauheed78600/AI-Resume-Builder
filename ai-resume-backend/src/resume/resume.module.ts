@@ -7,9 +7,10 @@ import { UserDetails } from 'src/entity/UserDetails';
 import { Experience } from 'src/entity/Experience';
 import { Education } from 'src/entity/Education';
 import { Skills } from 'src/entity/Skills';
+import { Projects } from 'src/entity/Projects';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserDetails, Experience, Education, Skills]),],
+  imports: [TypeOrmModule.forFeature([UserDetails, Experience, Education, Skills, Projects]),],
   controllers: [ResumeController],
   providers: [ResumeService, JwtService]
 })

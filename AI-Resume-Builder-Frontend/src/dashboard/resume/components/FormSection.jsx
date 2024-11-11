@@ -9,6 +9,7 @@ import Experience from './forms/Experience'
 import Education from './forms/Education'
 import Skills from './forms/Skills'
 import { Link, Navigate } from 'react-router-dom'
+import Projects from './forms/Projects'
 
 function FormSection() {
 
@@ -44,7 +45,8 @@ function FormSection() {
       activeFormIndex == 3? <Experience enablenext = {(v)=>setEnablenext(v)}/>:
       activeFormIndex == 4? <Education enablenext = {(v)=>setEnablenext(v)}/>:
       activeFormIndex == 5? <Skills enablenext = {(v)=>setEnablenext(v)}/>:
-      activeFormIndex == 6?
+      activeFormIndex == 6? <Projects enablenext = {(v) =>setEnablenext(v)}/>:
+      activeFormIndex == 7?
       <Navigate to ={'/my-resume/' + resumeid + '/view'}/>
       :null}
     </div>

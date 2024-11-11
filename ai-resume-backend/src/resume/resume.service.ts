@@ -13,6 +13,8 @@ import { UpdateEducationDTO } from './dto/EducationDTO';
 import { SendDTO } from './dto/SendDTO';
 import { MailerService } from '@nestjs-modules/mailer';
 import { template } from '@babel/core';
+import { Projects } from 'src/entity/Projects';
+import { ProjectDTO } from './dto/ProjectDTO';
 
 @Injectable()
 export class ResumeService {
@@ -26,6 +28,8 @@ export class ResumeService {
         private EduRepo: Repository<Education>,
         @InjectRepository(Skills)
         private skillRepo: Repository<Skills>,
+        @InjectRepository(Projects)
+        private projectsRepo: Repository<Projects>,
         private readonly mailerService: MailerService
     ) {}
 
@@ -118,8 +122,13 @@ async getResumeData(id: string) {
         relations: ['user']
     });
 
+    const projects = await this.projectsRepo.find({
+        where: { user: { userid: userid } },
+        relations: ['user']
+    });
+
     // Logging user information
-    console.log("user before res", skills);
+    console.log("user before projects", projects);
 
     const {title, themeColor, firstName, lastName, jobTitle, userEmail, username, number, summary, address, email, templateId} = user;
 
@@ -138,9 +147,44 @@ async getResumeData(id: string) {
         themeColor,
         education,
         experience,
+        projects,
         skills
     };
     return response;
+}
+
+async addProjects(userid: number, data: ProjectDTO[]){
+    const user = await this.UserDetRepo.findOne({ where: { userid: userid } });
+    if (!user) {
+        throw new Error('User not found');
+    }
+    const userIds = user.userid
+    await this.projectsRepo.createQueryBuilder()
+        .delete()
+        .from(Skills)
+        .where("user_id = :userIds", { userIds })
+        .execute();
+
+    if (data.length === 0){
+        return
+    }
+    if (data.length && data.length > 0){
+        const projectEntities = data.map(entry => {
+            const projects = this.projectsRepo.create({
+                ...entry,
+                projectTitle: entry.projectTitle,
+                projectDescription: entry.projectDescription,
+                startDate: entry.startDate,
+                endDate: entry.endDate,
+                major: entry.major
+            });
+            projects.user = user;
+            return projects;
+        });
+
+        // Save the new education entries
+        await this.projectsRepo.save(projectEntities);
+    }   
 }
 
 
