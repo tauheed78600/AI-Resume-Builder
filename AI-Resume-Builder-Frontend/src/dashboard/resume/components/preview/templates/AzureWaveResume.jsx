@@ -9,7 +9,7 @@ function AzureWaveResume() {
   const secondaryColor = '#003A70';
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md border border-gray-300" style={{ color: themeColor, fontFamily: 'Arial, sans-serif' }}>
+    <div className="p-3 bg-white rounded-lg shadow-md border border-gray-300" style={{ color: themeColor, fontFamily: 'Arial, sans-serif', width: '730px' }}>
       {/* Personal Details */}
       <div className="text-center mb-4">
         <h1 className="text-xl font-bold">
@@ -69,16 +69,36 @@ function AzureWaveResume() {
 
       <hr className="my-2 border-gray-300" />
 
+      {/* Projects */}
+      <section className='mb-2'>
+          <h2 className="text-base font-bold" style={{ color: secondaryColor }}>Projects</h2>
+          {resumeInfo?.projects.map((pro, idx)=>(
+            <div key = {idx} className='mb-1'>
+              <div className='flex justify-between'>
+              <p className="font-semibold text-xs text-gray-700">{pro.projectTitle || "An Expense Tracker"}</p>
+              <p className="text-xs text-gray-500">{moment(pro.startDate).format("MMM YYYY")} - {moment(pro.endDate).format("MMM YYYY")}</p>
+              </div>
+              <p className='text-xs'>{pro.projectDescription}</p>
+            </div>
+          ))}
+
+      </section>
+
       {/* Education */}
       <section className="mb-2">
         <h2 className="text-base font-bold" style={{ color: secondaryColor }}>Education</h2>
         {resumeInfo?.education && resumeInfo.education.length > 0 ? (
           resumeInfo.education.map((edu, idx) => (
             <div key={idx} className="mb-1">
-              <p className="font-semibold text-xs text-gray-700">{edu.degree || "Bachelor of Science in Computer Science"}</p>
-              <p className="text-xs text-gray-700">{edu.universityName || "XYZ University"}</p>
+              <div className='flex justify-between'>
+              <p className="font-semibold text-xs text-gray-700">{edu.degree || "Bachelor of Science in Computer Science"}, {edu.branch}, {edu.universityName || "XYZ University"}</p>
               <p className="text-xs text-gray-500">{moment(edu.startDate).format("MMM YYYY")} - {moment(edu.endDate).format("MMM YYYY")}</p>
-              <p className="text-xs text-gray-600">CGPA: {edu.cgpa || "9.0"}</p>
+              </div>
+              <div className=''>
+                <p className="text-xs text-gray-600">CGPA: {edu.cgpa || "9.0"}</p>
+               
+              </div>
+              <p className='text-xs'>{edu.description}</p>
             </div>
           ))
         ) : (
@@ -96,13 +116,22 @@ function AzureWaveResume() {
       {/* Skills */}
       <section>
         <h2 className="text-base font-bold" style={{ color: secondaryColor }}>Skills</h2>
-        <div className="text-xs text-gray-600">
+        <div className='grid grid-cols-2 gap-3 my-4'>
           {resumeInfo?.skills && resumeInfo.skills.length > 0 ? (
-            <ul className="list-disc list-inside">
-              {resumeInfo.skills.map((skill, idx) => (
-                <li key={idx}>{skill}</li>
-              ))}
-            </ul>
+            resumeInfo?.skills.map((ski,index)=>(
+              <div key={index} className='flex items-center justify-between'>
+                  <h2 className='text-xs'>{ski.skill}</h2>
+                  <div className='h-2 bg-gray-200 w-[120px]'>
+                      <div className='h-2'
+                          style={{
+                              backgroundColor: '#000000',
+                              width:ski?.rating*20+'%'
+                          }}
+                      >
+                      </div>
+                  </div>
+              </div>
+          ))
           ) : (
             <ul className="list-disc list-inside">
               <li>React</li>

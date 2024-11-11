@@ -128,7 +128,7 @@ async getResumeData(id: string) {
     });
 
     // Logging user information
-    console.log("user before projects", projects);
+    // console.log("user before projects", projects);
 
     const {title, themeColor, firstName, lastName, jobTitle, userEmail, username, number, summary, address, email, templateId} = user;
 
@@ -161,7 +161,7 @@ async addProjects(userid: number, data: ProjectDTO[]){
     const userIds = user.userid
     await this.projectsRepo.createQueryBuilder()
         .delete()
-        .from(Skills)
+        .from(Projects)
         .where("user_id = :userIds", { userIds })
         .execute();
 

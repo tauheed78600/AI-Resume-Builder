@@ -43,9 +43,9 @@ function FormSection() {
      {activeFormIndex == 1? <PersonalDetails enablenext = {(v)=>setEnablenext(v)}/>:
       activeFormIndex == 2? <Objective enablenext = {(v)=>setEnablenext(v)}/>:
       activeFormIndex == 3? <Experience enablenext = {(v)=>setEnablenext(v)}/>:
-      activeFormIndex == 4? <Education enablenext = {(v)=>setEnablenext(v)}/>:
-      activeFormIndex == 5? <Skills enablenext = {(v)=>setEnablenext(v)}/>:
-      activeFormIndex == 6? <Projects enablenext = {(v) =>setEnablenext(v)}/>:
+      activeFormIndex == 4? <Projects enablenext = {(v) =>setEnablenext(v)}/>:
+      activeFormIndex == 5? <Education enablenext = {(v)=>setEnablenext(v)}/>:
+      activeFormIndex == 6? <Skills enablenext = {(v)=>setEnablenext(v)}/>:
       activeFormIndex == 7?
       <Navigate to ={'/my-resume/' + resumeid + '/view'}/>
       :null}

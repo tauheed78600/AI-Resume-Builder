@@ -28,6 +28,7 @@ function ResumeCardItem({ resume }) {
   const onDelete = () => {
     setLoading(true);
     GlobalAPI.deleteResumeById(resume.userid).then(resp => {
+      window.location.reload()
       toast('Resume Deleted!');
       setLoading(false);
       setOpenAlert(false);
