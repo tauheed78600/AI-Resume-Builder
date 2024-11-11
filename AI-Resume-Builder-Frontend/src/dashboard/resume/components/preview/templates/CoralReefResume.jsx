@@ -4,9 +4,10 @@ import moment from 'moment';
 
 function CoralReefResume() {
   const { resumeInfo } = useContext(resumeInfoContext);
+  const secondaryColor = "#7F8C8D"
 
   return (
-    <div className="p-6" style={{ color: resumeInfo?.themeColor || '#FF7F50' }}>
+    <div className="p-6 bg-white rounded-lg shadow-md border border-gray-200" style={{ fontFamily: 'Arial, sans-serif', width: '800px', color: secondaryColor }}>
       <h1 className="text-2xl font-bold">{resumeInfo?.name || "Sarah Connor"}</h1>
       <p>{resumeInfo?.careerObjective || "Creative professional with a flair for design and development."}</p>
 

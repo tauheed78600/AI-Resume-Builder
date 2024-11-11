@@ -4,9 +4,11 @@ import moment from 'moment';
 
 function SapphireBreezeResume() {
   const { resumeInfo } = useContext(resumeInfoContext);
+  const secondaryColor='#1F77B4'
 
   return (
-    <div className="p-6" style={{ color: resumeInfo?.themeColor || '#1F77B4' }}>
+    <div className="p-6 bg-white rounded-lg shadow-md border border-gray-200" style={{ fontFamily: 'Arial, sans-serif', width: '800px', color: secondaryColor }}>
+
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">{resumeInfo?.name || "Alice Johnson"}</h1>

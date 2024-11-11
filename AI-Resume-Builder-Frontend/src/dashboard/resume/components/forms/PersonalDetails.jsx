@@ -79,42 +79,44 @@ function PersonalDetails({ enablenext }) {
 
 
     return (
-        <div className='p-5 shadow-lg rounded-lg border-t-primary border-t-4 mt-10'>
+        <div className='p-5 shadow-lg rounded-lg border-t-primary border-t-4 mt-10 max-w-2xl mx-auto'>
             <h2 className='font-bold text-lg'>Personal Details</h2>
             <p>Get Started with basic information</p>
-            <form onSubmit={onSave}>
-                <div className='grid grid-cols-2 mt-5 gap-3'>
-                    <div>
-                        <label className='text-sm'>First Name</label>
-                        <Input name="firstName" value={formData.firstName} required onChange={handleInputChange} />
+            <div className=""> {/* Slightly wider container */}
+                <form onSubmit={onSave}>
+                    <div className='grid grid-cols-2 mt-5 gap-3'>
+                        <div>
+                            <label className='text-sm'>First Name</label>
+                            <Input name="firstName" value={formData.firstName} required onChange={handleInputChange} />
+                        </div>
+                        <div>
+                            <label className='text-sm'>Last Name</label>
+                            <Input name="lastName" value={formData.lastName} required onChange={handleInputChange} />
+                        </div>
+                        <div className='col-span-2'>
+                            <label className='text-sm'>Job Title</label>
+                            <Input name="jobTitle" value={formData.jobTitle} required onChange={handleInputChange} />
+                        </div>
+                        <div className='col-span-2'>
+                            <label className='text-sm'>Address</label>
+                            <Input name="address" value={formData.address} required onChange={handleInputChange} />
+                        </div>
+                        <div >
+                            <label className='text-sm'>Phone Number</label>
+                            <Input name="number" value={formData.number} required onChange={handleInputChange} />
+                        </div>
+                        <div>
+                            <label className='text-sm'>Email</label>
+                            <Input name="email" value={formData.email} required onChange={handleInputChange} />
+                        </div>
+                        <div className='mt-3 flex justify-end'>
+                            <Button
+                                disabled={loading}
+                                type="submit">{loading ? <LoaderCircle className='animate-spin' /> : 'Save'}</Button>
+                        </div>
                     </div>
-                    <div>
-                        <label className='text-sm'>Last Name</label>
-                        <Input name="lastName" value={formData.lastName} required onChange={handleInputChange} />
-                    </div>
-                    <div className='col-span-2'>
-                        <label className='text-sm'>Job Title</label>
-                        <Input name="jobTitle" value={formData.jobTitle} required onChange={handleInputChange} />
-                    </div>
-                    <div className='col-span-2'>
-                        <label className='text-sm'>Address</label>
-                        <Input name="address" value={formData.address} required onChange={handleInputChange} />
-                    </div>
-                    <div >
-                        <label className='text-sm'>Phone Number</label>
-                        <Input name="number" value={formData.number} required onChange={handleInputChange} />
-                    </div>
-                    <div>
-                        <label className='text-sm'>Email</label>
-                        <Input name="email" value={formData.email} required onChange={handleInputChange} />
-                    </div>
-                    <div className='mt-3 flex justify-end'>
-                        <Button
-                            disabled={loading}
-                            type="submit">{loading ? <LoaderCircle className='animate-spin' /> : 'Save'}</Button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     )
 }

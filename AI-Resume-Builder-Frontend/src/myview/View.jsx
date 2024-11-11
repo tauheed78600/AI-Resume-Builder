@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import ResumePreview from '../dashboard/resume/components/ResumePreview';
 import GlobalAPI from '../../service/GlobalAPI';
 import html2pdf from 'html2pdf.js';
+import resumeTemplates from '../dashboard/resume/components/preview/templates';
 
 function ViewResume() {
   const [resumeInfo, setResumeInfo] = useState();
@@ -45,6 +46,8 @@ function ViewResume() {
     });
   };
 
+  const reqTemplate = resumeTemplates.find(template => template.id === resumeInfo?.templateId);
+
   return (
     <resumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
       <div id="no-print">
@@ -67,7 +70,10 @@ function ViewResume() {
       </div>
       <div className="my-10 mx-auto max-w-3xl">
         <div id="print-area">
-          <ResumePreview />
+          {resumeInfo?.templateId?
+          reqTemplate.component:
+          <ResumePreview/>  
+        }
         </div>
       </div>
     </resumeInfoContext.Provider>

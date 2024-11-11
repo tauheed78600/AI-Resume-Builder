@@ -3,6 +3,7 @@ import SapphireBreezeResume from "./SapphireBreezeResume";
 import AmberGlowResume from "./AmberGlowResume";
 import CoralReefResume from "./CoralReefResume";
 import IvorySkylineResume from "./IvorySkyline";
+import FreshSingle from "./FreshSingle";
 
 const resumeTemplates = [
   {
@@ -29,7 +30,12 @@ const resumeTemplates = [
     id: 'ivory_skyline',
     component: <IvorySkylineResume />,
     name: "Ivory Skyline"
-  }
+  },
+  {
+    id: 'fresh_single',
+    component: <FreshSingle/>,
+    name: "Fresh Single"
+  },
 ];
 
 export default resumeTemplates;

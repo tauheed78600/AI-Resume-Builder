@@ -5,7 +5,7 @@ function PersonalDetailPreview({resumeInfo}) {
 
   return (
     <div>
-        <h2 className='font-bold text-xl text-center'
+        <h2 className='font-bold text-xl text-center '
         style={{
             color:resumeInfo?.themeColor
         }}

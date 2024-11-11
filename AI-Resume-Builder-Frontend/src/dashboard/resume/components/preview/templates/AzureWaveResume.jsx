@@ -9,7 +9,8 @@ function AzureWaveResume() {
   const secondaryColor = '#003A70';
 
   return (
-    <div className="p-3 bg-white rounded-lg shadow-md border border-gray-300" style={{ color: themeColor, fontFamily: 'Arial, sans-serif', width: '730px' }}>
+    <div className="p-6 bg-white rounded-lg shadow-md border border-gray-300" style={{ color: themeColor, fontFamily: 'Arial, sans-serif', width: '800px', borderTop: `5px solid ${secondaryColor}` }}>
+      
       {/* Personal Details */}
       <div className="text-center mb-4">
         <h1 className="text-xl font-bold">
@@ -25,7 +26,8 @@ function AzureWaveResume() {
         </div>
       </div>
 
-      <hr className="border-gray-300 my-2" />
+      {/* Section Divider */}
+      <hr className="my-2 border" style={{ borderColor: secondaryColor }} />
 
       {/* Career Objective */}
       <section className="">
@@ -35,7 +37,8 @@ function AzureWaveResume() {
         </p>
       </section>
 
-      <hr className="my-2 border-gray-300" />
+      {/* Section Divider */}
+      <hr className="my-2 border" style={{ borderColor: secondaryColor }} />
 
       {/* Experience */}
       <section className="mb-2">
@@ -50,11 +53,10 @@ function AzureWaveResume() {
                 <p className="text-xs whitespace-nowrap ml-2">{exp.startDate} - {exp.endDate}</p>
               </div>
               <p className="text-xs">{exp.city || "City"}, {exp.state || "Country"}</p>
-              <div className=" text-xs" style={{ display: 'inline-block', maxWidth: '100%', whiteSpace: 'normal' }}>
+              <div className="text-xs" style={{ display: 'inline-block', maxWidth: '100%', whiteSpace: 'normal' }}>
                 <p className='' dangerouslySetInnerHTML={{ __html: exp.summary || "<ul><li>Developed software solutions.</li><li>Collaborated with cross-functional teams.</li></ul>" }} />
               </div>
             </div>
-
           ))
         ) : (
           <div className="text-xs text-gray-600">
@@ -67,22 +69,25 @@ function AzureWaveResume() {
         )}
       </section>
 
-      <hr className="my-2 border-gray-300" />
+      {/* Section Divider */}
+      <hr className="my-2 border" style={{ borderColor: secondaryColor }} />
 
       {/* Projects */}
-      <section className='mb-2'>
-          <h2 className="text-base font-bold" style={{ color: secondaryColor }}>Projects</h2>
-          {resumeInfo?.projects.map((pro, idx)=>(
-            <div key = {idx} className='mb-1'>
-              <div className='flex justify-between'>
+      <section className="mb-2">
+        <h2 className="text-base font-bold" style={{ color: secondaryColor }}>Projects</h2>
+        {resumeInfo?.projects.map((pro, idx) => (
+          <div key={idx} className="mb-1">
+            <div className="flex justify-between">
               <p className="font-semibold text-xs text-gray-700">{pro.projectTitle || "An Expense Tracker"}</p>
               <p className="text-xs text-gray-500">{moment(pro.startDate).format("MMM YYYY")} - {moment(pro.endDate).format("MMM YYYY")}</p>
-              </div>
-              <p className='text-xs'>{pro.projectDescription}</p>
             </div>
-          ))}
-
+            <p className="text-xs" dangerouslySetInnerHTML={{ __html: pro.projectDescription }}></p>
+          </div>
+        ))}
       </section>
+
+      {/* Section Divider */}
+      <hr className="my-2 border" style={{ borderColor: secondaryColor }} />
 
       {/* Education */}
       <section className="mb-2">
@@ -90,15 +95,12 @@ function AzureWaveResume() {
         {resumeInfo?.education && resumeInfo.education.length > 0 ? (
           resumeInfo.education.map((edu, idx) => (
             <div key={idx} className="mb-1">
-              <div className='flex justify-between'>
-              <p className="font-semibold text-xs text-gray-700">{edu.degree || "Bachelor of Science in Computer Science"}, {edu.branch}, {edu.universityName || "XYZ University"}</p>
-              <p className="text-xs text-gray-500">{moment(edu.startDate).format("MMM YYYY")} - {moment(edu.endDate).format("MMM YYYY")}</p>
+              <div className="flex justify-between">
+                <p className="font-semibold text-xs text-gray-700">{edu.degree || "Bachelor of Science in Computer Science"}, {edu.branch}, {edu.universityName || "XYZ University"}</p>
+                <p className="text-xs text-gray-500">{moment(edu.startDate).format("MMM YYYY")} - {moment(edu.endDate).format("MMM YYYY")}</p>
               </div>
-              <div className=''>
-                <p className="text-xs text-gray-600">CGPA: {edu.cgpa || "9.0"}</p>
-               
-              </div>
-              <p className='text-xs'>{edu.description}</p>
+              <p className="text-xs text-gray-600">CGPA: {edu.cgpa || "9.0"}</p>
+              <p className="text-xs">{edu.description}</p>
             </div>
           ))
         ) : (
@@ -111,27 +113,28 @@ function AzureWaveResume() {
         )}
       </section>
 
-      <hr className="my-2 border-gray-300" />
+      {/* Section Divider */}
+      <hr className="my-2 border" style={{ borderColor: secondaryColor }} />
 
       {/* Skills */}
       <section>
         <h2 className="text-base font-bold" style={{ color: secondaryColor }}>Skills</h2>
-        <div className='grid grid-cols-2 gap-3 my-4'>
+        <div className="grid grid-cols-2 gap-3 my-4">
           {resumeInfo?.skills && resumeInfo.skills.length > 0 ? (
-            resumeInfo?.skills.map((ski,index)=>(
-              <div key={index} className='flex items-center justify-between'>
-                  <h2 className='text-xs'>{ski.skill}</h2>
-                  <div className='h-2 bg-gray-200 w-[120px]'>
-                      <div className='h-2'
-                          style={{
-                              backgroundColor: '#000000',
-                              width:ski?.rating*20+'%'
-                          }}
-                      >
-                      </div>
-                  </div>
+            resumeInfo?.skills.map((ski, index) => (
+              <div key={index} className="flex items-center justify-between">
+                <h2 className="text-xs">{ski.skill}</h2>
+                <div className="h-2 bg-gray-200 w-[120px]">
+                  <div
+                    className="h-2"
+                    style={{
+                      backgroundColor: '#000000',
+                      width: ski?.rating * 20 + '%',
+                    }}
+                  ></div>
+                </div>
               </div>
-          ))
+            ))
           ) : (
             <ul className="list-disc list-inside">
               <li>React</li>
@@ -144,6 +147,10 @@ function AzureWaveResume() {
           )}
         </div>
       </section>
+
+      {/* Section Divider */}
+      <hr className="my-2 border" style={{ borderColor: secondaryColor }} />
+
     </div>
   );
 }

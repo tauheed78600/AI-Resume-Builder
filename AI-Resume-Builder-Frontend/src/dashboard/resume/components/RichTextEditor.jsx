@@ -65,7 +65,7 @@ function RichTextEditor({ onRichTextEditorChange,index,defaultValue, val}) {
           }
           const PROMPT2 = "Generate a project description of a project name {projectTitle}. Dont give Json Array in the response"
           setLoading(true)
-          const prompt=PROMPT2.replace('{projectTitle}',resumeInfo.experience[index].projectTitle);
+          const prompt=PROMPT2.replace('{projectTitle}',resumeInfo.projects[index].projectTitle);
           
           const result=await AIChatSession.sendMessage(prompt);
           console.log("result.response.text() in projects", result.response.text());

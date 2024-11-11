@@ -21,7 +21,7 @@ function FormSection() {
 
   return (
     <div>
-      <div className='flex justify-between items-center'>
+      <div className='flex justify-between items-center max-w-3xl mx-auto'>
         <div className='flex gap-2'>
           <Link to={'/dashboard'}>
             <Button><Home/></Button>
@@ -29,7 +29,7 @@ function FormSection() {
         <Button variant = 'outline' size="sm" className='flex gap-2'><LayoutGrid/>Theme</Button>
 
         </div>
-        <div className='flex gap-2'>
+        <div className='flex gap-2 '>
           {activeFormIndex > 1 && <Button size = "sm"
           onClick = {()=>setActiveFormIndex(activeFormIndex - 1)}
           ><ArrowBigLeft/></Button>}

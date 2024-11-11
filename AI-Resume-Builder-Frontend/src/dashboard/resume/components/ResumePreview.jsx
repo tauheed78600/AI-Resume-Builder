@@ -10,12 +10,9 @@ import SkillsPreview from './preview/SkillsPreview'
 function ResumePreview() {
 
     const {resumeInfo, setResumeInfo} = useContext(resumeInfoContext)
-
+    const secondaryColor = '#333333'
     return (
-        <div className='shadow-lg h-full p-14 border-t-[20px]'
-        style = {{
-            borderColor: resumeInfo?.themeColor
-        }}>
+        <div className="p-6 bg-white rounded-lg shadow-md border border-gray-200" style={{ fontFamily: 'Arial, sans-serif', width: '800px', color: secondaryColor }}>
         <PersonalDetails resumeInfo = {resumeInfo}/>
         <SummaryPreview resumeInfo = {resumeInfo}/>
         <ExperiencePreview resumeInfo = {resumeInfo}/>

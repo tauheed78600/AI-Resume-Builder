@@ -6,8 +6,10 @@ import { resumeInfoContext } from '../../../../../context/ResumeInfoContext';
 function AmberGlowResume() {
   const { resumeInfo } = useContext(resumeInfoContext);
 
+  const secondaryColor = "#FF8C00"
+
   return (
-    <div className="p-6" style={{ color: resumeInfo?.themeColor || '#FF8C00' }}>
+    <div className="p-6 bg-white rounded-lg shadow-md border border-gray-200" style={{ fontFamily: 'Arial, sans-serif', width: '800px', color: secondaryColor }}>
       {/* Header */}
       <div className="flex justify-between">
         <h1 className="text-4xl font-bold">{resumeInfo?.name || "Michael Scott"}</h1>

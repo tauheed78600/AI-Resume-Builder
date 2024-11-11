@@ -42,7 +42,7 @@ import { Projects } from './entity/Projects';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'Tauheed123',
+      password: 'password',
       database: 'airesume',
       entities: [Experience, UserDetails, Education, Skills, Projects],
       synchronize: true,

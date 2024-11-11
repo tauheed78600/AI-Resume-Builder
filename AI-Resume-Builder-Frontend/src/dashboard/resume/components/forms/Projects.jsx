@@ -109,7 +109,7 @@ function Projects() {
 
   return (
     <div>
-      <div className='p-5 shadow-lg rounded-lg border-t-primary border-t-4 mt-10'>
+      <div className='p-5 shadow-lg rounded-lg border-t-primary border-t-4 mt-10 max-w-3xl mx-auto'>
         <h2 className='font-bold text-lg'>Project Details</h2>
         <p>Add Your Project Details</p>
         <div>

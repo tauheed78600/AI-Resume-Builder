@@ -50,27 +50,30 @@ function EditResume({ resumeList }) {
       setLoading(false);
     }
   }, [resumeList, params.resumeid]);
-  
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-
-
   const selectedTemplate = resumeTemplates.find(template => template.id === resumeInfo.templateId);
 
   return (
     <resumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
-      <div className="flex justify-center font-bold text-4xl italic">
+      <div className="flex justify-center font-bold text-4xl italic mb-5">
         {resumeInfo?.title}
       </div>
 
-      <div className="grid grid-cols-2 p-10 gap-10">
-        <FormSection />
-        {selectedTemplate ? selectedTemplate.component : <ResumePreview />}
+      <div className="flex justify-between grid-cols-2 gap-4 px-5">
+      <div className="col-span-2 w-full max-w-4xl">
+          <FormSection />
+        </div>
+
+        {/* Resume Preview with reduced gap */}
+        <div className="col-span-1">
+          {selectedTemplate ? selectedTemplate.component : <ResumePreview />}
+        </div>
       </div>
-        </resumeInfoContext.Provider>
+    </resumeInfoContext.Provider>
   );
 }
 
