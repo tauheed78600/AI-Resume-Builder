@@ -13,6 +13,7 @@ import { UserDetails } from './entity/UserDetails';
 import { Education } from './entity/Education';
 import { Skills } from './entity/Skills';
 import { Projects } from './entity/Projects';
+import { Links } from './entity/Links';
 
 @Module({
   imports: [
@@ -42,9 +43,9 @@ import { Projects } from './entity/Projects';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'password',
+      password: 'Tauheed123',
       database: 'airesume',
-      entities: [Experience, UserDetails, Education, Skills, Projects],
+      entities: [Experience, UserDetails, Education, Skills, Projects, Links],
       synchronize: true,
     }),   
     ResumeModule,

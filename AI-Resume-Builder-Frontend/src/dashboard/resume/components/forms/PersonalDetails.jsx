@@ -13,6 +13,7 @@ function PersonalDetails({ enablenext }) {
 
     const { resumeInfo, setResumeInfo } = useContext(resumeInfoContext);
     console.log("resumeInfo in personalDetails", resumeInfo)
+    const [openLinks, setOpenLinks] = useState(false)
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -20,7 +21,8 @@ function PersonalDetails({ enablenext }) {
         jobTitle: '',
         address: '',
         number: '',
-        email: ''
+        email: '',
+        links: []
     });
     const [loading, setLoading] = useState(false)
 
@@ -39,6 +41,41 @@ function PersonalDetails({ enablenext }) {
         })
     }
 
+    const handleLinkChange = (e, linkType) => {
+        const { value } = e.target;
+        setFormData((prevFormData) => {
+            const updatedLinks = [...prevFormData.links];
+            const existingIndex = updatedLinks.findIndex(link => link.name === linkType);
+
+            if (existingIndex > -1) {
+                updatedLinks[existingIndex].link = value;
+            } else {
+                updatedLinks.push({ name: linkType, link: value });
+            }
+
+            return {
+                ...prevFormData,
+                links: updatedLinks
+            };
+        });
+        
+        setResumeInfo((prevResumeInfo) => {
+            const updatedLinks = [...prevResumeInfo.links];
+            const existingIndex = updatedLinks.findIndex(link => link.name === linkType);
+
+            if (existingIndex > -1) {
+                updatedLinks[existingIndex].link = value;
+            } else {
+                updatedLinks.push({ name: linkType, link: value });
+            }
+
+            return {
+                ...prevResumeInfo,
+                links: updatedLinks
+            };
+        });
+    }
+
     useEffect(() => {
         if (resumeInfo) {
             setFormData({
@@ -47,7 +84,8 @@ function PersonalDetails({ enablenext }) {
                 jobTitle: resumeInfo.jobTitle || '',
                 address: resumeInfo.address || '',
                 number: resumeInfo.number || '',
-                email: resumeInfo.email || ''
+                email: resumeInfo.email || '',
+                links: resumeInfo.links || []
             });
         }
     }, [resumeInfo]);
@@ -57,7 +95,10 @@ function PersonalDetails({ enablenext }) {
         setLoading(true);
 
         const data = {
-            data: formData
+            data: {
+                ...formData,
+                links: formData.links
+            }
         };
 
         console.log("formData in line 46", formData);
@@ -65,7 +106,6 @@ function PersonalDetails({ enablenext }) {
 
         GlobalAPI.updateResumeDetail(params.resumeid, data)
             .then(resp => {
-                console.log("returned Response", resp);
                 enablenext(true);
                 setLoading(false);
                 toast("Details Saved");
@@ -77,12 +117,11 @@ function PersonalDetails({ enablenext }) {
             });
     };
 
-
     return (
         <div className='p-5 shadow-lg rounded-lg border-t-primary border-t-4 mt-10 max-w-2xl mx-auto'>
             <h2 className='font-bold text-lg'>Personal Details</h2>
             <p>Get Started with basic information</p>
-            <div className=""> {/* Slightly wider container */}
+            <div className="">
                 <form onSubmit={onSave}>
                     <div className='grid grid-cols-2 mt-5 gap-3'>
                         <div>
@@ -109,6 +148,38 @@ function PersonalDetails({ enablenext }) {
                             <label className='text-sm'>Email</label>
                             <Input name="email" value={formData.email} required onChange={handleInputChange} />
                         </div>
+                        <div className='mt-3'>
+                            <a href='#' onClick={() => setOpenLinks(!openLinks)}>Add Links?</a>
+                            {openLinks && (
+                                <div className='grid grid-cols-2 gap-3 text-sm mt-3'>
+                                    <div>
+                                        <label>Paste LinkedIn URL</label>
+                                        <Input
+                                            value={formData.links.find(link => link.name === 'LinkedIn')?.link || ''}
+                                            onChange={(e) => handleLinkChange(e, 'LinkedIn')}
+                                            type='text'
+                                        />
+                                    </div>
+                                    <div>
+                                        <label>Paste GitHub URL</label>
+                                        <Input
+                                            value={formData.links.find(link => link.name === 'GitHub')?.link || ''}
+                                            onChange={(e) => handleLinkChange(e, 'GitHub')}
+                                            type='text'
+                                        />
+                                    </div>
+                                    <div>
+                                        <label>Paste Website URL</label>
+                                        <Input
+                                            value={formData.links.find(link => link.name === 'Website')?.link || ''}
+                                            onChange={(e) => handleLinkChange(e, 'Website')}
+                                            type='text'
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
                         <div className='mt-3 flex justify-end'>
                             <Button
                                 disabled={loading}

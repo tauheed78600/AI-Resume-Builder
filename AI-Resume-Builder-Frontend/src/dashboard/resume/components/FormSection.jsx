@@ -10,6 +10,7 @@ import Education from './forms/Education'
 import Skills from './forms/Skills'
 import { Link, Navigate } from 'react-router-dom'
 import Projects from './forms/Projects'
+import { Eye } from 'lucide-react';
 
 function FormSection() {
 
@@ -25,6 +26,9 @@ function FormSection() {
         <div className='flex gap-2'>
           <Link to={'/dashboard'}>
             <Button><Home/></Button>
+          </Link>
+          <Link to={`/my-resume/${resumeid}/view`}>
+            <Button><Eye/></Button>
           </Link>
         <Button variant = 'outline' size="sm" className='flex gap-2'><LayoutGrid/>Theme</Button>
 

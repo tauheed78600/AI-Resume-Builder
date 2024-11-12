@@ -5,8 +5,8 @@ function SkillsPreview({resumeInfo}) {
   console.log("resumeInfo in Skills Preview", resumeInfo)
 
   return (
-    <div className='my-6'>
-    <h2 className='text-center font-bold text-sm mb-2'
+    <div className=''>
+    <h2 className='text-center font-bold text-sm'
     style={{
         color:resumeInfo?.themeColor
     }}
@@ -15,7 +15,7 @@ function SkillsPreview({resumeInfo}) {
         borderColor:resumeInfo?.themeColor
     }} />
 
-    <div className='grid grid-cols-2 gap-3 my-4'>
+    <div className='grid grid-cols-2 gap-3 my-1'>
         {resumeInfo?.skills.map((ski,index)=>(
             <div key={index} className='flex items-center justify-between'>
                 <h2 className='text-xs'>{ski.skill}</h2>

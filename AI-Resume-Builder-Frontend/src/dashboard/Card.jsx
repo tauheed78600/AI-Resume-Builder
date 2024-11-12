@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import resumeTemplates from './resume/components/preview/templates';
 import AddResume from './components/AddResume';
 import { useNavigate } from 'react-router-dom';
+import { PlusIcon } from 'lucide-react';
 
 function Card({ title, buttonTitle, description }) {
   const [onOpen, setOnOpen] = useState(false);
@@ -49,6 +50,12 @@ function Card({ title, buttonTitle, description }) {
             </DialogDescription>
           </DialogHeader>
           <div className="grid grid-cols-4 gap-6 p-6 max-h-full overflow-auto">
+          <div className="w-xs p-4 bg-white rounded-lg shadow-md hover:scale-105 transform transition-all duration-300 cursor-pointer">
+                <div className='flex items-center justify-center h-[180px]'>
+                <PlusIcon/>
+                </div>
+                <AddResume/>
+          </div>
             {resumeTemplates.map((template) => (
               <div
                 key={template.id}

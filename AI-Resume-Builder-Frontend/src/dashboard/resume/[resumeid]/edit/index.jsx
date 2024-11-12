@@ -23,6 +23,7 @@ function EditResume({ resumeList }) {
     education: [],
     experience: [],
     projects: [],
+    links: [],
     templateId: '',
   });
   const [loading, setLoading] = useState(true);
