@@ -12,6 +12,7 @@ import { useState, useEffect } from 'react';
 import GlobalAPI from '../service/GlobalAPI.js';
 import { useUser } from '@clerk/clerk-react';
 import ViewResume from './myview/View.jsx';
+import ResumeView from './myview/ResumeView.jsx';
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -65,6 +66,10 @@ const Main = () => {
     {
       path: '/my-resume/:resumeid/view',
       element: <ViewResume/>
+    },
+    {
+      path: '/my-resume/:resumeid/preview',
+      element: <ResumeView resumeList={resumeList}/>
     }
   ]);
 

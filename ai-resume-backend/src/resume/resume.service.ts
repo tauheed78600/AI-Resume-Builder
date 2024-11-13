@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserDetails } from 'src/entity/UserDetails';
 import { In, Not, Repository } from 'typeorm';
 import { CreateResumeDto } from './dto/CreateResumeDTO';
-import { UpdateUserDTO } from './dto/UpdateUserDTO';
+import { UpdateUserDetailsDto } from './dto/UpdateUserDTO';
 import { UpdateExperienceDTO } from './dto/UpdateExperienceDTO';
 import { Experience } from 'src/entity/Experience';
 import { Education } from 'src/entity/Education';
@@ -77,7 +77,7 @@ export class ResumeService {
     }
 
 
-    async updateUserDetails(userid: string, dto: UpdateUserDTO): Promise<UserDetails> {
+    async updateUserDetails(userid: string, dto: UpdateUserDetailsDto): Promise<UserDetails> {
         console.log("id in service", userid)
         const id = parseInt(userid)
         const user = await this.UserDetRepo.findOne({ where: { userid: id } });
@@ -98,7 +98,8 @@ export class ResumeService {
             .where("user_id = :userIds", { userIds })
             .execute();
 
-        const linkEntities = dto.data.links.map(lin=>{
+        if(dto.links){
+            const linkEntities = dto.links.map(lin=>{
             const links =  this.linksRepo.create({
                 ...lin,
                 name: lin.name,
@@ -109,8 +110,9 @@ export class ResumeService {
         })
 
         await this.linksRepo.save(linkEntities);
+    }
 
-        const { firstName, lastName, address, number, email, jobTitle, summary } = dto.data
+        const { firstName, lastName, address, number, email, jobTitle, summary } = dto
 
         userDetails.firstName = firstName
         userDetails.lastName = lastName

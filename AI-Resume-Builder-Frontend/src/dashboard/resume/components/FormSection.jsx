@@ -3,6 +3,7 @@ import PersonalDetails from './forms/PersonalDetails'
 import { resumeInfoContext } from '../../../context/ResumeInfoContext'
 import { ArrowBigLeft, ArrowRight, Home, LayoutGrid } from 'lucide-react'
 import { Button } from '../../../components/ui/button'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useParams, useSearchParams } from 'react-router-dom'
 import Objective from './forms/Objective'
 import Experience from './forms/Experience'
@@ -11,12 +12,16 @@ import Skills from './forms/Skills'
 import { Link, Navigate } from 'react-router-dom'
 import Projects from './forms/Projects'
 import { Eye } from 'lucide-react';
+import { Input } from '../../../components/ui/input'
+
 
 function FormSection() {
 
   const {resumeInfo, setResumeInfo} = useContext(resumeInfoContext)
   const [activeFormIndex, setActiveFormIndex] = useState(1);
   const [enablenext, setEnablenext] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
+  const [error, setError] = useState('');
 
   const {resumeid} = useParams()
 
@@ -27,9 +32,9 @@ function FormSection() {
           <Link to={'/dashboard'}>
             <Button><Home/></Button>
           </Link>
-          <Link to={`/my-resume/${resumeid}/view`}>
-            <Button><Eye/></Button>
-          </Link>
+          {/* <Link to={`/my-resume/${resumeid}/view`}> */}
+            <Button onClick = {()=>{setOpenDialog(true)}}><Eye/></Button>
+          {/* </Link> */}
         <Button variant = 'outline' size="sm" className='flex gap-2'><LayoutGrid/>Theme</Button>
 
         </div>
@@ -53,6 +58,22 @@ function FormSection() {
       activeFormIndex == 7?
       <Navigate to ={'/my-resume/' + resumeid + '/view'}/>
       :null}
+
+      
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Your Resume</DialogTitle>
+
+                <div>
+                  Please
+                </div>
+
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+
+
     </div>
   )
 }

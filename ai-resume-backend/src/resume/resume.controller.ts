@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/
 import { ResumeService } from './resume.service';
 import { JwtService } from '@nestjs/jwt';
 import { CreateResumeDto } from './dto/CreateResumeDTO';
-import { UpdateUserDTO } from './dto/UpdateUserDTO';
+import { UpdateUserDetailsDto } from './dto/UpdateUserDTO';
 import { UpdateExperienceDTO } from './dto/UpdateExperienceDTO';
 import { UpdateSkillDTO } from './dto/SkillDto';
 import { UpdateEducationDTO } from './dto/EducationDTO';
@@ -52,10 +52,10 @@ export class ResumeController {
 
 
     @Put('/user-resumes/:resumeid')
-    async update(@Param('resumeid') resumeId: string, @Body() updateUserDetailsDto: UpdateUserDTO) {
+    async update(@Param('resumeid') resumeId: string, @Body() updateUserDetailsDto: UpdateUserDetailsDto) {
         console.log("inside")
         console.log("line 50, put api", resumeId, updateUserDetailsDto)
-        console.log("links line 58", updateUserDetailsDto.data.links)
+        console.log("links line 58", updateUserDetailsDto)
 
         this.resumeService.updateUserDetails(resumeId, updateUserDetailsDto);
     }

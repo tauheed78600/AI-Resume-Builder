@@ -52,7 +52,3 @@ export class UpdateUserDetailsDto {
     @IsOptional()
     links?: LinkDto[];
 }
-
-export class UpdateUserDTO {
-    data: UpdateUserDetailsDto;
-}
