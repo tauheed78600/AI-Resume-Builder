@@ -4,6 +4,7 @@ import Header from '../components/custom/header';
 import GlobalAPI from '../../service/GlobalAPI';
 import { toast } from 'sonner';
 import { LoaderCircle } from 'lucide-react';
+import Footer from './Footer';
 
 function Home() {
   
@@ -39,9 +40,9 @@ function Home() {
 
 
   return (
-    <div className="bg-white text-black min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <div className="mx-auto px-6 lg:px-32 py-12">
+      <div className="mx-auto px-6 lg:px-32">
         
         <section className="text-center my-16 space-y-6 animate-fade-in">
           <h1 className="text-4xl font-bold drop-shadow-lg animate-slide-in-down">
@@ -138,7 +139,6 @@ function Home() {
           </div>
         </section>
 
-        {/* Contact Section */}
         <section className="my-16 text-center">
           <h2 className="text-3xl font-semibold mb-8">Contact Us</h2>
           <form className="max-w-lg mx-auto space-y-4">
@@ -169,8 +169,8 @@ function Home() {
           </form>
         </section>
 
-        <div className="fixed top-4 right-4">
-          {/* <UserButton /> */}
+        <div >
+          <Footer/>
         </div>
       </div>
     </div>
