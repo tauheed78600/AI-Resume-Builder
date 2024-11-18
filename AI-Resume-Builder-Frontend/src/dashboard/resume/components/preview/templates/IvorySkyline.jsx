@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { resumeInfoContext } from '../../../../../context/ResumeInfoContext';
 import moment from 'moment';
+import { Linkedin } from 'lucide-react';
 
 function IvorySkyline() {
   const { resumeInfo } = useContext(resumeInfoContext);
@@ -8,12 +9,21 @@ function IvorySkyline() {
   const themeColor = resumeInfo?.themeColor || '#1E90FF'; // Blue theme color
   const secondaryColor = '#333333'; // Dark color for text
 
+  console.log("resumeInfo in ivorySkyline", resumeInfo)
+
   return (
+
+    
     <div className="p-6 bg-white rounded-lg shadow-md border border-gray-200" style={{ fontFamily: 'Arial, sans-serif', width: '800px', color: secondaryColor }}>
       <div className="border-b-4 pb-3" style={{ borderColor: themeColor }}>
         <h1 className="text-lg font-bold">{resumeInfo?.firstName || "John"} {resumeInfo?.lastName || "Doe"}</h1>
         <h2 className="text-sm font-semibold">{resumeInfo?.jobTitle || "Full Stack Developer"}</h2>
         <p className="text-xs">{resumeInfo?.address || "San Francisco, CA"}</p>
+        {resumeInfo?.links.map((lin)=>(
+          <div className=''>
+            <a href = {lin.link}><Linkedin/></a>
+          </div>
+        ))}
         <div className="flex justify-between text-xs mt-2">
           <p>{resumeInfo?.email || "johndoe@example.com"}</p>
           <p>{resumeInfo?.number || "+1234567890"}</p>

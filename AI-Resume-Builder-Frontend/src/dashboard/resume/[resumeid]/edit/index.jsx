@@ -5,6 +5,8 @@ import ResumePreview from '../../components/ResumePreview';
 import { resumeInfoContext } from '../../../../context/ResumeInfoContext';
 import GlobalAPI from '../../../../../service/GlobalAPI';
 import resumeTemplates from '../../components/preview/templates';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+
 
 function EditResume({ resumeList }) {
   const params = useParams();
@@ -27,6 +29,8 @@ function EditResume({ resumeList }) {
     templateId: '',
   });
   const [loading, setLoading] = useState(true);
+  const [openDialog, setOpenDialog] = useState(false)
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const resumeId = parseInt(params?.resumeid);
@@ -64,16 +68,35 @@ function EditResume({ resumeList }) {
         {resumeInfo?.title}
       </div>
 
-      <div className="flex justify-between grid-cols-2 gap-4 px-5">
-      <div className="col-span-2 w-full max-w-4xl">
+        <div className="flex justify-between grid-cols-2 gap-4 px-5">
+          <div className="col-span-2 w-full max-w-4xl">
           <FormSection />
-        </div>
+          </div>
 
-        {/* Resume Preview with reduced gap */}
-        <div className="col-span-1">
-          {selectedTemplate ? selectedTemplate.component : <ResumePreview />}
+          <div onClick = {()=>{setOpenDialog(true)}} className="col-span-1">
+            {selectedTemplate ? selectedTemplate.component : <ResumePreview />}
+          </div>
+
+
+          <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+            <DialogContent className="max-h-[90vh] max-w-[57vw] h-full overflow-y-auto">
+              <DialogHeader>
+                <div className='flex justify-center text-2xl'>
+                <DialogTitle>Your Resume</DialogTitle>
+                </div>
+
+                <div onClick={() => { setOpenDialog(true) }} className="col-span-1">
+                  {selectedTemplate ? selectedTemplate.component : <ResumePreview />}
+                </div>
+
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+
+
+
+
         </div>
-      </div>
     </resumeInfoContext.Provider>
   );
 }
