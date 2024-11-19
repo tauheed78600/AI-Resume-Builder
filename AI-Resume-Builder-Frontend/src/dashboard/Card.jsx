@@ -12,13 +12,18 @@ function Card({ title, buttonTitle, description }) {
   const navigate = useNavigate();
 
   const onSubmit = () => {
-    if (title === "Resume") {
+    if (title === 'Resume') {
       setOnOpen(true);
     }
   };
 
   const onTemplateClick = (template) => {
     setSelectedTemplate(template);
+    setOpenAddResume(true);
+  };
+
+  const openAddResumeModal = () => {
+    setSelectedTemplate(null); // No template is selected when creating from PlusIcon
     setOpenAddResume(true);
   };
 
@@ -50,17 +55,19 @@ function Card({ title, buttonTitle, description }) {
             </DialogDescription>
           </DialogHeader>
           <div className="grid grid-cols-4 gap-6 p-6 max-h-full overflow-auto">
-          <div className="w-xs p-4 bg-white rounded-lg shadow-md hover:scale-105 transform transition-all duration-300 cursor-pointer">
-                <div className='flex items-center justify-center h-[180px]'>
-                <PlusIcon/>
-                </div>
-                <AddResume/>
-          </div>
+            <div
+              className="w-xs p-4 bg-white rounded-lg shadow-md hover:scale-105 transform transition-all duration-300 cursor-pointer"
+              onClick={openAddResumeModal}
+            >
+              <div className="flex items-center justify-center h-[180px]">
+                <PlusIcon />
+              </div>
+            </div>
             {resumeTemplates.map((template) => (
               <div
                 key={template.id}
                 className="w-xs p-4 bg-white rounded-lg shadow-md hover:scale-105 transform transition-all duration-300 cursor-pointer"
-                onClick={() => onTemplateClick(template)} // Call onTemplateClick when clicked
+                onClick={() => onTemplateClick(template)}
               >
                 <img
                   src={template.image}
@@ -74,7 +81,7 @@ function Card({ title, buttonTitle, description }) {
         </DialogContent>
       </Dialog>
 
-      {selectedTemplate && (
+      {openAddResume && (
         <AddResume
           open={openAddResume}
           setOpen={setOpenAddResume}

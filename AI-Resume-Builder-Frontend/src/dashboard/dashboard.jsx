@@ -4,10 +4,13 @@ import { useUser } from '@clerk/clerk-react';
 import GlobalAPI from '../../service/GlobalAPI.js';
 import ResumeItem from './components/ResumeItem.jsx';
 import Card from './Card.jsx';
+import { Button } from '../components/ui/button.jsx';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function Dashboard() {
   const { user, isLoaded, isSignedIn } = useUser();
   const [resumeList, setResumeList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoaded && isSignedIn) {
@@ -57,6 +60,26 @@ function Dashboard() {
           />
         </div>
       </div>
+
+      <div className="bg-gradient-to-r from-blue-50 to-blue-100 py-16 px-6 mt-9">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl sm:text-6xl font-extrabold text-gray-800 leading-tight">
+              Check Your ATS Score
+            </h1>
+            <p className="mt-6 text-lg sm:text-xl text-gray-600">
+              Upload your resume and discover how optimized it is for applicant tracking systems. Improve your chances of landing your dream job!
+            </p>
+            <div className="mt-10">
+              <Button
+                className="py-3 px-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold text-lg rounded-full shadow-lg hover:shadow-xl hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-500 transition-all duration-300"
+                onClick={() => navigate('/ats-checker')}
+              >
+                Get Started
+              </Button>
+            </div>
+          </div>
+        </div>
+
       
       <h2 className="font-bold text-3xl mt-10">My Resume</h2>
       <p className="text-lg mb-4">Start Creating AI Resume for your next Job Role</p>

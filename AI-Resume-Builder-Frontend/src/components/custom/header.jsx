@@ -10,7 +10,7 @@ function Header() {
             <Link to="/">
             <img src="/AIResLogo.png" width={270} height={100} alt="AIRes Logo" />
             </Link>
-            {isSignedIn?
+              {isSignedIn?
             <div className='flex gap-2 items-center'>
                 <Link to = "/dashboard">
                     <Button variant="outline">DashBoard</Button>

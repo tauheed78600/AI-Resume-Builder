@@ -43,7 +43,7 @@ import { Links } from './entity/Links';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'Tauheed123',
+      password: 'password',
       database: 'airesume',
       entities: [Experience, UserDetails, Education, Skills, Projects, Links],
       synchronize: true,
