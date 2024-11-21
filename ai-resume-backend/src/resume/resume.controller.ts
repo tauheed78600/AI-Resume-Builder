@@ -23,6 +23,8 @@ export class ResumeController {
         return this.resumeService.createResume(createUserDetailsDto);
     }
 
+
+    
     @Get('/user-resumes/:userEmail')
     async getResume(@Param('userEmail') userEmail: string) {
         console.log('userEmail in getResume:', userEmail);

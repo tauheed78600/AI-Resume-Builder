@@ -72,7 +72,7 @@ function Dashboard() {
             <div className="mt-10">
               <Button
                 className="py-3 px-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold text-lg rounded-full shadow-lg hover:shadow-xl hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-500 transition-all duration-300"
-                onClick={() => navigate('/ats-checker')}
+                onClick={() => navigate('/my-resume/ats-scanner')}
               >
                 Get Started
               </Button>
