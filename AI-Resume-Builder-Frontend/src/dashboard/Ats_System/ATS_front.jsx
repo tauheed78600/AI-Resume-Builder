@@ -33,7 +33,7 @@ function ATS_front() {
 
     try {
         console.log("formData before call", formData)
-      const response = await axios.post('http://localhost:3000/api/resumes', formData, {
+        const response = await axios.post('http://localhost:1337/api/ats-scan', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       console.log('Response from server:', response.data);

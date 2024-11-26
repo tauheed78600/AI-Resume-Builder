@@ -231,20 +231,36 @@ function Home() {
                 </p>
               </div>
 
-              {/* Feature 3 */}
-              <div className="relative p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-2 lg:col-span-2">
+              <div className="relative p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-2">
                 <div className="flex items-center gap-4">
-                  <div className="p-4 bg-pink-500 text-white rounded-full">
-                    <i className="fas fa-lightbulb text-2xl"></i>
+                  <div className="p-4 bg-orange-500 text-white rounded-full">
+                    <i className="fas fa-pencil-alt text-2xl"></i>
                   </div>
                   <h3 className="text-2xl font-semibold text-gray-800">
-                    Real-Time Suggestions
+                      Real-Time Suggestions
                   </h3>
                 </div>
                 <p className="mt-4 text-gray-600">
-                  Improve your resume quality with AI-powered tips and feedback.
+                    Improve your resume quality with AI-powered tips and feedback.
                 </p>
               </div>
+
+
+              <div className="relative p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-2">
+                <div className="flex items-center gap-4">
+                  <div className="p-4 bg-red-500 text-white rounded-full">
+                    <i className="fas fa-pencil-alt text-2xl"></i>
+                  </div>
+                  <h3 className="text-2xl font-semibold text-gray-800">
+                      ATS Tracking
+                  </h3>
+                </div>
+                <p className="mt-4 text-gray-600">
+                    Improve your resume quality our most powerful ATS Tracking System and many other additional Features
+                </p>
+              </div>
+
+              
 
               {/* Feature 4 */}
               <div className="relative p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-2">

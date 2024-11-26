@@ -16,6 +16,7 @@ import { template } from '@babel/core';
 import { Projects } from 'src/entity/Projects';
 import { ProjectDTO } from './dto/ProjectDTO';
 import { Links } from 'src/entity/Links';
+import { exec } from 'child_process';
 
 @Injectable()
 export class ResumeService {
@@ -124,6 +125,37 @@ export class ResumeService {
 
         return this.UserDetRepo.save(userDetails);
     }
+
+    async analyzeResume(filePath: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            const pythonScript = './src/python.py';
+            const jobTitle = 'Software Engineer';
+            const command = `python ${pythonScript} "${jobTitle}" "${filePath}"`;
+    
+            console.log("Executing command:", command);
+    
+            exec(command, (error, stdout, stderr) => {
+                if (error) {
+                    console.log("Error executing Python script:", error.message);
+                    reject(new Error(`Python script error: ${stderr || error.message}`));
+                    return;
+                }
+    
+                console.log("Python script output:", stdout);
+    
+                try {
+                    const parsedOutput = JSON.parse(stdout);
+                    console.log("Parsed output:", parsedOutput);
+                    resolve(parsedOutput);
+                } catch (parseError) {
+                    console.error("Error parsing Python script output:", parseError.message);
+                    reject(new Error('Error parsing Python script output'));
+                }
+            });
+        });
+    }
+    
+      
 
     async getResumeData(id: string) {
         const userid = parseInt(id);
