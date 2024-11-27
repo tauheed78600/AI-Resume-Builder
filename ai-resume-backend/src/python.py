@@ -4,21 +4,20 @@ from docx import Document
 import json
 import logging
 import re
-from nltk.corpus import stopwords
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+from collections import defaultdict
+import os
 
-# Load spaCy model (replace 'en_core_web_sm' with a suitable model)
+# Load spaCy model
 nlp = spacy.load("en_core_web_sm")
 
 # Configure logging
-logging.basicConfig(filename="debug.log",
-                     format='%(asctime)s - %(levelname)s - %(message)s',
-                     filemode='w')
-
+logging.basicConfig(
+    filename="ats_debug.log",
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    filemode='w'
+)
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)  # Set the logging level to DEBUG
-
+logger.setLevel(logging.DEBUG)
 
 def extract_text(file_path):
     """
@@ -26,7 +25,6 @@ def extract_text(file_path):
     """
     logger.debug(f"Extracting text from {file_path}")
     file_type = file_path.split('.')[-1]
-    logger.debug(f"file_type text from {file_type}")
     text = ''
     if file_type == 'pdf':
         reader = PdfReader(file_path)
@@ -39,90 +37,138 @@ def extract_text(file_path):
     else:
         logger.error(f"Unsupported file type: {file_type}")
         raise ValueError('Unsupported file type')
-    logger.debug(f"Extracted text: {text[:500]}")  # Log first 500 characters
+    logger.debug(f"Extracted text (first 500 characters): {text[:500]}")
     return text
 
-
-def analyze_section_relevance(section_text, job_title):
+def extract_sections(text):
     """
-    Compares a section's text with the job title using TF-IDF and cosine similarity.
+    Extracts sections from the resume text using regex.
     """
-    logger.debug(f"Analyzing section relevance: {section_text} ")
-    logger.debug(f"Analyzing section relevance: {job_title} ")
-
-    # Preprocess text with spaCy
-    doc1 = nlp(job_title)
-    doc2 = nlp(section_text)
-
-    # Extract keywords using spaCy's tokenization and part-of-speech tagging
-    keywords1 = [token.lemma_ for token in doc1 if not token.is_stop and token.pos_ in ['NOUN', 'VERB', 'ADJ']]
-    keywords2 = [token.lemma_ for token in doc2 if not token.is_stop and token.pos_ in ['NOUN', 'VERB', 'ADJ']]
-
-    # Create a combined text for TF-IDF
-    combined_text = ' '.join(keywords1 + keywords2)
-
-    documents = [job_title, section_text]
-    vectorizer = TfidfVectorizer(stop_words=stopwords.words('english'))
-    tfidf_matrix = vectorizer.fit_transform(documents)
-    similarity = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
-    score = round(similarity[0][0] * 100, 2)
-    logger.debug(f"Relevance score: {score}%")
-    return score
-
-
-def analyze_text(text, job_title):
-    """
-    Analyzes the relevance of the resume's sections to the given job title.
-    """
-    logger.debug("Analyzing text")
+    logger.debug("Extracting sections from the resume")
     sections = {
-        'Job Summary': any([token.text.lower() in ['summary', 'profile', 'objective'] for token in nlp(text)]),
-        'Skills': any([token.text.lower() == 'skills' for token in nlp(text)]),
-        'Projects': any([token.text.lower() in ['projects', 'experience'] for token in nlp(text)]),
-        'Experience': any([token.text.lower() in ['experience', 'work experience'] for token in nlp(text)]),
-        'Education': any([token.text.lower() == 'education' for token in nlp(text)]),
+        "summary": r"(summary|profile|objective).*?(?=(\n[A-Z][a-zA-Z]+:|$))",
+        "skills": r"(skills).*?(?=(\n[A-Z][a-zA-Z]+:|$))",
+        "experience": r"(experience|work experience).*?(?=(\n[A-Z][a-zA-Z]+:|$))",
+        "projects": r"(projects).*?(?=(\n[A-Z][a-zA-Z]+:|$))",
+        "education": r"(education).*?(?=(\n[A-Z][a-zA-Z]+:|$))"
     }
+    extracted = {}
+    for section, pattern in sections.items():
+        match = re.search(pattern, text, re.I | re.S)
+        extracted[section] = match.group(0).strip() if match else ""
+        logger.debug(f"Extracted {section} section: {extracted[section][:200]}")
+    return extracted
 
-    relevance_scores = {}
-    suggestions = []
-    total_score = 0
+def parse_job_description(job_description):
+    """
+    Parses the job description to extract required skills, experience, and keywords.
+    """
+    logger.debug("Parsing job description")
+    skills = re.findall(r"(skills|technologies required):?\s*(.*?)\.", job_description, re.I)
+    experience = re.findall(r"(experience required):?\s*(.*?)\.", job_description, re.I)
+    projects = re.findall(r"(project requirements):?\s*(.*?)\.", job_description, re.I)
 
-    logger.debug(f"sections before for loop: {sections}")
+    parsed = {
+        "skills": skills[0][1].split(", ") if skills else [],
+        "experience": experience[0][1].split(", ") if experience else [],
+        "projects": projects[0][1].split(", ") if projects else []
+    }
+    logger.debug(f"Parsed job description: {parsed}")
+    return parsed
 
-    for section, exists in sections.items():
-        if exists:
-            pattern = rf"{section}.*?(?=(\n[A-Z][a-zA-Z]+:|$))"
-            logger.debug(f"inside for loop: {pattern}")
-            section_content = re.search(pattern, text, re.I | re.S)
-            section_text = section_content.group(0) if section_content else ""
-            relevance_scores[section] = analyze_section_relevance(section_text, job_title)
-            total_score += relevance_scores[section]
+def match_keywords(section_text, keywords):
+    """
+    Matches keywords in a section against the given list of keywords.
+    """
+    logger.debug(f"Matching keywords in section")
+    words = section_text.lower().split()
+    matched_keywords = [word for word in keywords if word.lower() in words]
+    logger.debug(f"Matched keywords: {matched_keywords}")
+    return matched_keywords
+
+def analyze_resume(resume_sections, job_requirements):
+    """
+    Analyzes resume sections against the job requirements and calculates matching scores.
+    """
+    logger.debug("Analyzing resume sections")
+    analysis = defaultdict(dict)
+
+    for section, content in resume_sections.items():
+        if content:
+            for key, keywords in job_requirements.items():
+                matched = match_keywords(content, keywords)
+                analysis[section][key] = {
+                    "matched_keywords": matched,
+                    "match_count": len(matched),
+                    "total_keywords": len(keywords)
+                }
         else:
-            suggestions.append(f"Add a {section} section to better align with the job title.")
+            analysis[section] = {"status": f"{section.capitalize()} section is missing"}
 
-    average_score = round(total_score / len(sections), 2)
-    logger.debug(f"Relevance scores: {relevance_scores}")
-    logger.debug(f"Suggestions: {suggestions}")
+    return analysis
 
-    return {
-        'job_title': job_title,
-        'relevance_scores': relevance_scores,
-        'average_score': average_score,
-        'suggestions': suggestions,
-    }
+def ats_process(job_description, resume_path):
+    """
+    Processes the resume and compares it against the job description.
+    """
+    logger.debug(f"Starting ATS process line 113 {job_description} {resume_path}")
+    # Step 1: Extract resume text
+    resume_text = extract_text(resume_path)
+    resume_text = resume_text.replace('\r\n', '\n').replace('\r', '\n')
 
+    # Step 2: Extract sections from the resume
+    resume_sections = extract_sections(resume_text)
 
-if __name__ == '__main__':
+    # Step 3: Parse the job description
+    job_requirements = parse_job_description(job_description)
+
+    # Step 4: Analyze the resume
+    analysis_results = analyze_resume(resume_sections, job_requirements)
+
+    logger.debug("ATS process complete")
+    return analysis_results
+
+def read_job_description(job_desc_file_path):
+    # Check if file exists
+    if not os.path.exists(job_desc_file_path):
+        print(f"Error: The job description file does not exist at {job_desc_file_path}")
+        logger.error(f"File not found: {job_desc_file_path}")
+        sys.exit(1)
+
+    logger.debug(f"Trying to open job description file: {job_desc_file_path}")
+
+    # Normalize the path in case of Windows
+    job_desc_file_path = os.path.normpath(job_desc_file_path)
+
+    try:
+        with open(job_desc_file_path, 'r') as file:
+            job_description_text = file.read()
+            print("Job description (first 500 characters):", job_description_text[:500])  # Debug print
+            logger.debug(f"Job description text (first 500 characters): {job_description_text[:500]}")
+    except FileNotFoundError:
+        print(f"Error: Job description file not found at {job_desc_file_path}")
+        logger.error(f"FileNotFoundError: {job_desc_file_path}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error reading job description file: {e}")
+        logger.error(f"Error reading job description file: {e}")
+        sys.exit(1)
+    
+    return job_description_text
+
+if __name__ == "__main__":
     import sys
-    file_path = sys.argv[2]
-    job_title = sys.argv[1]
+    print("Script started")
+    print("Arguments received:", len(sys.argv))
 
-    logger.debug(f"file path and job title: {file_path} {job_title}")
+    job_desc_file_path = sys.argv[1]
+    job_description_text = read_job_description(job_desc_file_path)
+    
+    logger.debug(f"line 140 {job_description_text}")
 
-    extracted_text = extract_text(file_path)
-    extracted_text = extracted_text.replace('\r\n', '\n').replace('\r', '\n')
+    resume_file_path = sys.argv[2]
 
-    final_job_title = job_title if job_title.lower() != "unknown" else job_title
+    results = ats_process(job_description_text, resume_file_path)
 
-    analysis_result = analyze_text(extracted_text, final_job_title)
-    print(json.dumps(analysis_result, indent=4))
+    # Output results
+    print(json.dumps(results, indent=4))

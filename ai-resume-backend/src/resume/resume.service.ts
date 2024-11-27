@@ -17,6 +17,8 @@ import { Projects } from 'src/entity/Projects';
 import { ProjectDTO } from './dto/ProjectDTO';
 import { Links } from 'src/entity/Links';
 import { exec } from 'child_process';
+const fs = require('fs');
+const path = require('path');
 
 @Injectable()
 export class ResumeService {
@@ -129,14 +131,39 @@ export class ResumeService {
     async analyzeResume(filePath: string): Promise<any> {
         return new Promise((resolve, reject) => {
             const pythonScript = './src/python.py';
-            const jobTitle = 'Software Engineer';
-            const command = `python ${pythonScript} "${jobTitle}" "${filePath}"`;
+            const jobDescription = `Analyze, design, develop, troubleshoot, and debug software programs for commercial or end-user applications. Writes code, completes programming, and performs testing and debugging of applications. Career Level - IC3
+    
+            As a member of the Oracle Sales and CPQ development team, you will work on developing complex backend services for Sales/CPQ applications on the Oracle Fusion stack. Once provided with the requirements, you will be expected to come up with a high-level design, solution proposal, get sign-off on the solution from the stakeholder, do detailed design, code, build the solution, build and implement unit tests and unit plans, and deploy the solution to production for highly complex enhancements and bugs. You are also expected to work on customer bugs and enhancements.
+    
+            **Requirements:**
+    
+            * BS/MS in Computer Science or equivalent
+            * 6-10 years of experience in developing and maintaining business applications
+            * Excellent analytical and interpersonal skills
+            * Self-motivated with a strong ability to learn quickly and work independently
+    
+            **Technical Skills:**
+    
+            * Core Java programming experience
+            * Enterprise Java or Java web frameworks like Spring
+            * SQL programming
+            * ELK stack knowledge and experience in leveraging it to build out search functionality for a web application (a plus)
+            * Prior experience on developing scalable SaaS products (a plus)
+            * Knowledge of Oracle Technologies (a plus)
+            * Knowledge of Source Control Systems (GIT repository)`;
+    
+            const jobDescFilePath = path.join(__dirname, 'temp_job_description.txt');
+            fs.writeFileSync(jobDescFilePath, jobDescription);
+    
+            const jdFilePath = './src/resume/temp_job_description.txt'
+
+            const command = `python ${pythonScript} "${jdFilePath}" "${filePath}"`;
     
             console.log("Executing command:", command);
     
             exec(command, (error, stdout, stderr) => {
                 if (error) {
-                    console.log("Error executing Python script:", error.message);
+                    console.error("Error executing Python script:", error.message);
                     reject(new Error(`Python script error: ${stderr || error.message}`));
                     return;
                 }
