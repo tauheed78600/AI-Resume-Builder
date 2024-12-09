@@ -26,7 +26,7 @@ function Home() {
     }));
   };
 
-  const handleATSRoute = () =>{
+  const handleATSRoute = () => {
     navigate('/my-resume/ats-scanner')
   }
 
@@ -50,17 +50,18 @@ function Home() {
       <Header />
       <div className="mx-auto px-6 lg:px-32">
         {/* Hero Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-8 mt-12">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-5xl font-extrabold text-gray-900 leading-snug drop-shadow-md">
+            {/* <h1 className="text-5xl font-extrabold text-gray-900 leading-snug drop-shadow-md">
               Welcome to <span className="text-indigo-600">Resumatic</span>
-            </h1>
+            </h1> */}
+            <blockquote className='flex flex-col justify-center text-8xl'>Dare to <span className="text-indigo-600 leading-snug drop-shadow-md font-extrabold">Dream,</span> Build to <span className="text-indigo-600 leading-snug drop-shadow-md font-extrabold">Achieve.</span></blockquote>
             <p className="text-lg text-gray-700 mt-6 leading-relaxed">
-              Build your professional resume with the power of AI. Easy, fast, and effective! Create ATS-compliant resumes with a free ATS Resume Checker.
+              Transform Your Professional Profile with Our Cutting-Edge AI Resume Creator. Craft a Compelling Narrative of Your Skills and Experience, Tailored to Your Dream Job. Start Building Your Dream Resume Today!
             </p>
             <motion.button
               whileHover={{ scale: 1.1 }}
@@ -79,6 +80,48 @@ function Home() {
             transition={{ duration: 0.8 }}
           />
         </div>
+
+        <section className='my-16'>
+          <div className='grid grid-cols-2'>
+            <div>
+              <h2 className='text-7xl'><span className='text-indigo-600 leading-snug drop-shadow-md font-extrabold'>Revolutionize</span> Your Job Search with <span className='text-indigo-600 leading-snug drop-shadow-md font-extrabold'>AI-Powered</span> Precision.</h2>
+            </div>
+            <div className='mt-6 text-xl'>
+              <p>
+                Elevate your career with our cutting-edge AI-powered resume builder Resumatic. Craft stunning, professional resumes tailored to each job application, ensuring you always make a strong first impression. Our intuitive platform simplifies the resume-building process, saving you time and effort. With just a few clicks, you can create a personalized resume that showcases your unique skills and experiences.
+              </p>
+              <p className='mt-7'>Our AI-driven technology analyzes your information and generates impactful resumes that highlight your strengths and achievements. No more generic templates or endless formatting. Our platform empowers you to build a compelling narrative that captures the attention of recruiters. Join the thousands of job seekers who have already trusted us to help them land their dream jobs.</p>
+            </div>
+          </div>
+        </section>
+
+        <section className='my-32'>
+          <div className='grid grid-cols-3'>
+            <div>
+              <img className='h-[690px] w-[390px] rounded-3xl' src='modelImage.jpg'></img>
+            </div>
+            <div className=''>
+              <div className='border-4 w-[410px] h-[200px] border-blue-600 bg-blue-600 rounded-3xl'>
+                <p className='text-gray-300 p-9 text-3xl'>Elevate Your Career with AI-Powered Precision.</p>
+              </div>
+              <div className='mt-4 border-4 w-[850px] h-[250px] border-blue-800 bg-blue-800 rounded-3xl'>
+                <p className='text-gray-300 p-4 text-3xl'>Your Future, Automated. Your Success, Assured</p>
+              </div>
+              <div className='border-2 mt-4 h-[200px] w-[410px] rounded-3xl border-violet-600 bg-violet-600'>
+                <p className='text-gray-300 p-4 text-3xl text-center'>Craft Your Career, Effortlessly. Land Your Dream Job, Quickly.</p>
+              </div>
+            </div>
+            <div className=''>
+              <div className=' border-2 h-[200px] w-[420px] rounded-3xl border-green-600 bg-green-600'>
+                <p className='text-gray-300 p-4 text-3xl text-center'>Reimagine Your Resume, Redefine Your Career.</p>
+              </div>
+              <div className='border-2 h-[200px] w-[420px] mt-[280px] border-violet-800 bg-violet-800 rounded-3xl'>
+                <p className='text-gray-300 p-4 text-3xl text-center'>Power Up Your Job Search with AI.</p>
+              </div>
+            </div>
+          </div>
+
+        </section>
 
         {/* How It Works Section */}
         <section className="my-16">
@@ -237,11 +280,11 @@ function Home() {
                     <i className="fas fa-pencil-alt text-2xl"></i>
                   </div>
                   <h3 className="text-2xl font-semibold text-gray-800">
-                      Real-Time Suggestions
+                    Real-Time Suggestions
                   </h3>
                 </div>
                 <p className="mt-4 text-gray-600">
-                    Improve your resume quality with AI-powered tips and feedback.
+                  Improve your resume quality with AI-powered tips and feedback.
                 </p>
               </div>
 
@@ -252,15 +295,15 @@ function Home() {
                     <i className="fas fa-pencil-alt text-2xl"></i>
                   </div>
                   <h3 className="text-2xl font-semibold text-gray-800">
-                      ATS Tracking
+                    ATS Tracking
                   </h3>
                 </div>
                 <p className="mt-4 text-gray-600">
-                    Improve your resume quality our most powerful ATS Tracking System and many other additional Features
+                  Improve your resume quality our most powerful ATS Tracking System and many other additional Features
                 </p>
               </div>
 
-              
+
 
               {/* Feature 4 */}
               <div className="relative p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-2">
@@ -297,35 +340,7 @@ function Home() {
 
 
 
-        {/* Contact Us Section */}
-        <section className="my-20 text-center">
-          <h2 className="text-3xl font-bold text-gray-800">Contact Us</h2>
-          <motion.form
-            className="max-w-lg mx-auto space-y-4 mt-8"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-          >
-            {['name', 'email', 'message'].map((field, idx) => (
-              <input
-                key={idx}
-                onChange={handleChange}
-                name={field}
-                type={field === 'message' ? 'textarea' : 'text'}
-                placeholder={`Your ${field}`}
-                className="w-full p-3 rounded-md bg-gray-100 text-gray-700 focus:ring-2 focus:ring-indigo-500 transition duration-200"
-              />
-            ))}
-            <motion.button
-              onClick={handleSubmit}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-indigo-600 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-indigo-700 transition duration-300"
-            >
-              Submit
-            </motion.button>
-          </motion.form>
-        </section>
+
 
         <Footer />
       </div>

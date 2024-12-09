@@ -19,7 +19,7 @@ function Header() {
                 <UserButton />
             </div>:
             <Link to={'/auth/signin'}>
-                <Button>Get Started</Button>
+                <Button className='mt-4'>Get Started</Button>
             </Link>}
         </div>
     )
