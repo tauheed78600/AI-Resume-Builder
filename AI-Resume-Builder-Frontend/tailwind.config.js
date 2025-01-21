@@ -7,13 +7,13 @@ module.exports = {
   theme: {
   	extend: {
 		keyframes: {
-			moveRight: {
+			slide: {
 			  '0%': { transform: 'translateX(0)' },
-			  '100%': { transform: 'translateX(100%)' },
+			  '100%': { transform: 'translateX(-100%)' },
 			},
 		  },
 		  animation: {
-			'scroll-right': 'moveRight 20s linear infinite',
+			slide: 'slide 10s linear infinite',
 		  },
   		borderRadius: {
   			lg: 'var(--radius)',
