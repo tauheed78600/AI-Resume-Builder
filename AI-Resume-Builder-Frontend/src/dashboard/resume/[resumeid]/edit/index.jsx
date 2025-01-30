@@ -92,10 +92,6 @@ function EditResume({ resumeList }) {
               </DialogHeader>
             </DialogContent>
           </Dialog>
-
-
-
-
         </div>
     </resumeInfoContext.Provider>
   );

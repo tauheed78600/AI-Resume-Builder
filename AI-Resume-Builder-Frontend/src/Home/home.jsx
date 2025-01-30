@@ -34,9 +34,7 @@ function Home() {
     }));
   };
 
-  const handleATSRoute = () => {
-    navigate('/my-resume/ats-scanner')
-  }
+
 
   const handleSubmit = (e) => {
     e.preventDefault();

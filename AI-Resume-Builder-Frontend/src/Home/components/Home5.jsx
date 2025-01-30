@@ -1,8 +1,11 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Home5() {
 
+    const navigate = useNavigate()
     const handleATSRoute = () => {
+
         navigate('/my-resume/ats-scanner')
       }
 
